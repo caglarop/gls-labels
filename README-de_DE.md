@@ -35,7 +35,7 @@ Für die manuelle Installation:
 
 Nach der Aktivierung des Plugins können Sie es konfigurieren, indem Sie zu Ihrem WordPress Dashboard gehen und zu "Einstellungen" -> "GLS Plugin" navigieren. Hier können Sie Ihre GLS Benutzer-ID, Ihr Passwort, Ihre Versender-Kontonummer und Ihre Versender-Adresse eingeben.
 
-Um ein Versand- oder Rücksendeetikett zu erstellen, gehen Sie zur Bestellseite und klicken Sie auf "Versandetikett erstellen" oder "Rücksendeetikett erstellen" in der GLS Metabox. Das ausgewählte Etikett wird dann erstellt und eine Notiz wird zur Bestellung hinzugefügt mit der Frachtnummer und einem Download-Link für das Etikett.
+Um ein Versand- oder Rücksendeetikett zu erstellen, gehen Sie zur Bestellseite und klicken Sie auf "Versandetikett erstellen" oder "Rücksendeetikett erstellen" in der GLS Metabox. Das ausgewählte Etikett wird dann erstellt und eine Notiz wird zur Bestellung hinzugefügt mit der Sendungsnummer und einem Download-Link für das Etikett.
 
 ## 🙋 Support
 
