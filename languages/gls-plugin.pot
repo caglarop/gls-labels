@@ -1,0 +1,138 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: GLS Plugin 1.0\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "GLS Plugin"
+msgstr ""
+
+msgid "This is a plugin to create GLS shipping labels"
+msgstr ""
+
+msgid "GLS Settings"
+msgstr ""
+
+msgid "User ID"
+msgstr ""
+
+msgid "Password"
+msgstr ""
+
+msgid "Shipper Account Number"
+msgstr ""
+
+msgid "Shipper Address"
+msgstr ""
+
+msgid "Country"
+msgstr ""
+
+msgid "Germany"
+msgstr ""
+
+msgid "Austria"
+msgstr ""
+
+msgid "Belgium"
+msgstr ""
+
+msgid "Bulgaria"
+msgstr ""
+
+msgid "Czech Republic"
+msgstr ""
+
+msgid "Denmark"
+msgstr ""
+
+msgid "Estonia"
+msgstr ""
+
+msgid "Spain"
+msgstr ""
+
+msgid "Finland"
+msgstr ""
+
+msgid "France"
+msgstr ""
+
+msgid "Ireland"
+msgstr ""
+
+msgid "Croatia"
+msgstr ""
+
+msgid "Hungary"
+msgstr ""
+
+msgid "Italy"
+msgstr ""
+
+msgid "Lithuania"
+msgstr ""
+
+msgid "Luxembourg"
+msgstr ""
+
+msgid "Latvia"
+msgstr ""
+
+msgid "Monaco"
+msgstr ""
+
+msgid "Netherlands"
+msgstr ""
+
+msgid "Poland"
+msgstr ""
+
+msgid "Portugal"
+msgstr ""
+
+msgid "Romania"
+msgstr ""
+
+msgid "Sweden"
+msgstr ""
+
+msgid "Slovenia"
+msgstr ""
+
+msgid "Slovakia"
+msgstr ""
+
+msgid "Postal Code"
+msgstr ""
+
+msgid "City"
+msgstr ""
+
+msgid "Street"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Create Shipping Label"
+msgstr ""
+
+msgid "Create Return Label"
+msgstr ""
+
+msgid "GLS Shipping Label"
+msgstr ""
+
+msgid "GLS Return Shipping Label created. Consignment ID: %s. <a href='%s'>Download label</a>"
+msgstr ""
+
+msgid "GLS Shipping Label created. Consignment ID: %s. <a href='%s'>Download label</a>"
+msgstr ""

@@ -1,0 +1,139 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: GLS Plugin 1.0\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: tr_TR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.4.2\n"
+
+msgid "GLS Plugin"
+msgstr "GLS Eklentisi"
+
+msgid "This is a plugin to create GLS shipping labels"
+msgstr "Bu, GLS gönderi etiketleri oluşturmak için bir eklentidir"
+
+msgid "GLS Settings"
+msgstr "GLS Ayarları"
+
+msgid "User ID"
+msgstr "Kullanıcı ID"
+
+msgid "Password"
+msgstr "Parola"
+
+msgid "Shipper Account Number"
+msgstr "Gönderen Hesap Numarası"
+
+msgid "Shipper Address"
+msgstr "Gönderen Adresi"
+
+msgid "Country"
+msgstr "Ülke"
+
+msgid "Germany"
+msgstr "Almanya"
+
+msgid "Austria"
+msgstr "Avusturya"
+
+msgid "Belgium"
+msgstr "Belçika"
+
+msgid "Bulgaria"
+msgstr "Bulgaristan"
+
+msgid "Czech Republic"
+msgstr "Çek Cumhuriyeti"
+
+msgid "Denmark"
+msgstr "Danimarka"
+
+msgid "Estonia"
+msgstr "Estonya"
+
+msgid "Spain"
+msgstr "İspanya"
+
+msgid "Finland"
+msgstr "Finlandiya"
+
+msgid "France"
+msgstr "Fransa"
+
+msgid "Ireland"
+msgstr "İrlanda"
+
+msgid "Croatia"
+msgstr "Hırvatistan"
+
+msgid "Hungary"
+msgstr "Macaristan"
+
+msgid "Italy"
+msgstr "İtalya"
+
+msgid "Lithuania"
+msgstr "Litvanya"
+
+msgid "Luxembourg"
+msgstr "Lüksemburg"
+
+msgid "Latvia"
+msgstr "Letonya"
+
+msgid "Monaco"
+msgstr "Monako"
+
+msgid "Netherlands"
+msgstr "Hollanda"
+
+msgid "Poland"
+msgstr "Polonya"
+
+msgid "Portugal"
+msgstr "Portekiz"
+
+msgid "Romania"
+msgstr "Romanya"
+
+msgid "Sweden"
+msgstr "İsveç"
+
+msgid "Slovenia"
+msgstr "Slovenya"
+
+msgid "Slovakia"
+msgstr "Slovakya"
+
+msgid "Postal Code"
+msgstr "Posta Kodu"
+
+msgid "City"
+msgstr "Şehir"
+
+msgid "Street"
+msgstr "Sokak"
+
+msgid "Name"
+msgstr "İsim"
+
+msgid "Create Shipping Label"
+msgstr "Gönderi Etiketi Oluştur"
+
+msgid "Create Return Label"
+msgstr "İade Etiketi Oluştur"
+
+msgid "GLS Shipping Label"
+msgstr "GLS Gönderi Etiketi"
+
+msgid "GLS Return Shipping Label created. Consignment ID: %s. <a href='%s'>Download label</a>"
+msgstr "GLS İade Gönderi Etiketi oluşturuldu. Gönderi ID: %s. <a href='%s'>Etiketi indir</a>"
+
+msgid "GLS Shipping Label created. Consignment ID: %s. <a href='%s'>Download label</a>"
+msgstr "GLS Gönderi Etiketi oluşturuldu. Gönderi ID: %s. <a href='%s'>Etiketi indir</a>"

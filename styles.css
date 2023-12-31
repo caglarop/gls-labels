@@ -1,0 +1,9 @@
+.gls-plugin .button {
+  width: 100%;
+}
+
+.gls-plugin-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}

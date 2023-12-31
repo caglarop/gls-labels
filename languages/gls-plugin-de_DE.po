@@ -1,0 +1,139 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: GLS Plugin 1.0\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.4.2\n"
+
+msgid "GLS Plugin"
+msgstr "GLS Plugin"
+
+msgid "This is a plugin to create GLS shipping labels"
+msgstr "Dies ist ein Plugin zur Erstellung von GLS-Versandetiketten"
+
+msgid "GLS Settings"
+msgstr "GLS Einstellungen"
+
+msgid "User ID"
+msgstr "Benutzer-ID"
+
+msgid "Password"
+msgstr "Passwort"
+
+msgid "Shipper Account Number"
+msgstr "Versender-Kontonummer"
+
+msgid "Shipper Address"
+msgstr "Versender-Adresse"
+
+msgid "Country"
+msgstr "Land"
+
+msgid "Germany"
+msgstr "Deutschland"
+
+msgid "Austria"
+msgstr "Österreich"
+
+msgid "Belgium"
+msgstr "Belgien"
+
+msgid "Bulgaria"
+msgstr "Bulgarien"
+
+msgid "Czech Republic"
+msgstr "Tschechische Republik"
+
+msgid "Denmark"
+msgstr "Dänemark"
+
+msgid "Estonia"
+msgstr "Estland"
+
+msgid "Spain"
+msgstr "Spanien"
+
+msgid "Finland"
+msgstr "Finnland"
+
+msgid "France"
+msgstr "Frankreich"
+
+msgid "Ireland"
+msgstr "Irland"
+
+msgid "Croatia"
+msgstr "Kroatien"
+
+msgid "Hungary"
+msgstr "Ungarn"
+
+msgid "Italy"
+msgstr "Italien"
+
+msgid "Lithuania"
+msgstr "Litauen"
+
+msgid "Luxembourg"
+msgstr "Luxemburg"
+
+msgid "Latvia"
+msgstr "Lettland"
+
+msgid "Monaco"
+msgstr "Monaco"
+
+msgid "Netherlands"
+msgstr "Niederlande"
+
+msgid "Poland"
+msgstr "Polen"
+
+msgid "Portugal"
+msgstr "Portugal"
+
+msgid "Romania"
+msgstr "Rumänien"
+
+msgid "Sweden"
+msgstr "Schweden"
+
+msgid "Slovenia"
+msgstr "Slowenien"
+
+msgid "Slovakia"
+msgstr "Slowakei"
+
+msgid "Postal Code"
+msgstr "Postleitzahl"
+
+msgid "City"
+msgstr "Stadt"
+
+msgid "Street"
+msgstr "Straße"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Create Shipping Label"
+msgstr "Versandetikett erstellen"
+
+msgid "Create Return Label"
+msgstr "Rücksendeetikett erstellen"
+
+msgid "GLS Shipping Label"
+msgstr "GLS Versandetikett"
+
+msgid "GLS Return Shipping Label created. Consignment ID: %s. <a href='%s'>Download label</a>"
+msgstr "GLS Rücksendeetikett erstellt. Sendungs-ID: %s. <a href='%s'>Etikett herunterladen</a>"
+
+msgid "GLS Shipping Label created. Consignment ID: %s. <a href='%s'>Download label</a>"
+msgstr "GLS Versandetikett erstellt. Sendungs-ID: %s. <a href='%s'>Etikett herunterladen</a>"
