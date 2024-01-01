@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.2] - 2024-01-01
+
+### Added
+
+- Added configuration button to metabox, which is displayed when the plugin is not configured.
+
+### Changed
+
+- Improved PHP compatibility. The plugin is now compatible with PHP versions from 7.4 to 8.3.
+
 ## [1.0.1] - 2024-01-01
 
 ### Added
