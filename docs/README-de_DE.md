@@ -2,10 +2,10 @@
 
 ![Logo](./icon-256x256.png)
 
-![Stars](https://img.shields.io/github/stars/caglarop/gls-plugin)
-![Forks](https://img.shields.io/github/forks/caglarop/gls-plugin)
-![Issues](https://img.shields.io/github/issues/caglarop/gls-plugin)
-![License](https://img.shields.io/github/license/caglarop/gls-plugin)
+![Stars](https://img.shields.io/github/stars/caglarop/gls-labels)
+![Forks](https://img.shields.io/github/forks/caglarop/gls-labels)
+![Issues](https://img.shields.io/github/issues/caglarop/gls-labels)
+![License](https://img.shields.io/github/license/caglarop/gls-labels)
 
 Das GLS Labels ist ein WordPress Plugin, das sich mit der GLS Web API für Paketverarbeitung und Paketstornierung integriert und ermöglicht die Erstellung von GLS Versandetiketten direkt aus Ihrem WordPress Dashboard.
 

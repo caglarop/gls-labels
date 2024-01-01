@@ -2,10 +2,10 @@
 
 ![Logo](./icon-256x256.png)
 
-![Yıldızlar](https://img.shields.io/github/stars/caglarop/gls-plugin)
-![Forklar](https://img.shields.io/github/forks/caglarop/gls-plugin)
-![Sorunlar](https://img.shields.io/github/issues/caglarop/gls-plugin)
-![Lisans](https://img.shields.io/github/license/caglarop/gls-plugin)
+![Yıldızlar](https://img.shields.io/github/stars/caglarop/gls-labels)
+![Forklar](https://img.shields.io/github/forks/caglarop/gls-labels)
+![Sorunlar](https://img.shields.io/github/issues/caglarop/gls-labels)
+![Lisans](https://img.shields.io/github/license/caglarop/gls-labels)
 
 GLS Labels, GLS Web API'si ile Paket İşleme ve Paket İptali için entegre olan ve GLS kargo etiketlerini doğrudan WordPress kontrol panelinizden oluşturmanızı sağlayan bir WordPress eklentisidir.
 
