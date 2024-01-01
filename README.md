@@ -48,3 +48,8 @@ If you need support or have any questions, please create a new issue in our GitH
 ## 📄 License
 
 This plugin is licensed under the MIT. See [LICENSE](LICENSE) for more information.
+
+## 🌐 Other Languages
+
+- [Türkçe](README-tr_TR.md)
+- [Deutsch](README-de_DE.md)

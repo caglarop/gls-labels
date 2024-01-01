@@ -48,3 +48,8 @@ Destek ihtiyacınız varsa veya herhangi bir sorunuz varsa, lütfen GitHub depom
 ## 📄 Lisans
 
 Bu eklenti MIT lisansı altında lisanslanmıştır. Daha fazla bilgi için [LICENSE](LICENSE) bakınız.
+
+## 🌐 Diğer Diller
+
+- [English](README.md)
+- [Deutsch](README-de_DE.md)
