@@ -2,7 +2,7 @@
 /*
 Plugin Name: GLS Labels
 Description: This is a WooCommerce plugin to create GLS shipping and return labels
-Version: 1.0.3
+Version: 1.0.4
 Author: Candan Tombas
 Author URI: https://devantia.com
 Text Domain: gls-labels

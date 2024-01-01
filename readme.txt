@@ -4,8 +4,8 @@ Tags: gls, labels, shipping, parcel, cancellation
 Requires at least: 5.6
 Tested up to: 6.4.2
 Requires PHP: 7.4
-Stable tag: 1.0.3
-Version: 1.0.3
+Stable tag: 1.0.4
+Version: 1.0.4
 License: MIT License
 License URI: https://opensource.org/licenses/MIT
 

@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.4] - 24-01-01
+
+### Changed
+
+- Refactored plugin code for improved efficiency and readability.
+
 ## [1.0.3] - 2024-01-01
 
 ### Changed
