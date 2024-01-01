@@ -1,6 +1,6 @@
 # WooGLS Labels 📦
 
-![Logo](./icon-256x256.png)
+![Logo](./docs/icon-256x256.png)
 
 ![Stars](https://img.shields.io/github/stars/caglarop/gls-plugin)
 ![Forks](https://img.shields.io/github/forks/caglarop/gls-plugin)
@@ -51,5 +51,5 @@ This plugin is licensed under the MIT. See [LICENSE](LICENSE) for more informati
 
 ## 🌐 Other Languages
 
-- [Türkçe](README-tr_TR.md)
-- [Deutsch](README-de_DE.md)
+- [Türkçe](docs/README-tr_TR.md)
+- [Deutsch](docs/README-de_DE.md)

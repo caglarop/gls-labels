@@ -47,9 +47,9 @@ Wenn Sie Unterstützung benötigen oder Fragen haben, erstellen Sie bitte ein ne
 
 ## 📄 Lizenz
 
-Dieses Plugin ist unter der MIT lizenziert. Siehe [LICENSE](LICENSE) für weitere Informationen.
+Dieses Plugin ist unter der MIT lizenziert. Siehe [LICENSE](../LICENSE) für weitere Informationen.
 
 ## 🌐 Andere Sprachen
 
-- [English](README.md)
+- [English](../README.md)
 - [Türkçe](README-tr_TR.md)
