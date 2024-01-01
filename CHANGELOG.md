@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - Improved PHP compatibility. The plugin is now compatible with PHP versions from 7.4 to 8.3.
+- For orders without a specified weight, a default weight of 0.1kg is now assigned. This change is due to GLS requiring a parcel weight.
 
 ## [1.0.1] - 2024-01-01
 
