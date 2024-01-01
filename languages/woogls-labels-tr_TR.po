@@ -13,7 +13,7 @@ msgstr ""
 "X-Generator: Poedit 3.4.2\n"
 
 msgid "WooGLS Labels"
-msgstr "GLS Eklentisi"
+msgstr "WooGLS Labels"
 
 msgid "This is a WooCommerce plugin to create GLS shipping and return labels"
 msgstr "Bu, GLS kargo ve iade etiketleri oluşturmak için bir WooCommerce eklentisidir"
