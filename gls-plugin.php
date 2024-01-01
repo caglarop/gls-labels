@@ -2,7 +2,7 @@
 /*
 Plugin Name: GLS Plugin
 Description: This is a plugin to create GLS shipping labels
-Version: 1.0
+Version: 1.0.1
 Author: Candan Tombas
 Author URI: https://devantia.com
 Text Domain: gls-plugin
@@ -13,8 +13,31 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+
+// Create the plugin directory and .htaccess file
+function create_gls_plugin_directory_and_htaccess() {
+	$upload_dir = wp_upload_dir();
+	$base_dir = $upload_dir['basedir'];
+	$gls_plugin_dir = "{$base_dir}/gls-plugin";
+
+	// Check if the directory exists, if not, create it
+	if ( ! file_exists( $gls_plugin_dir ) ) {
+		mkdir( $gls_plugin_dir, 0755, true );
+	}
+
+	// Check if the .htaccess file exists, if not, create it
+	$htaccess_file = "{$gls_plugin_dir}/.htaccess";
+		
+	if ( ! file_exists( $htaccess_file ) ) {
+		$htaccess_content = "deny from all";
+		file_put_contents( $htaccess_file, $htaccess_content );
+	}
+}
+
 function gls_plugin_load_textdomain() {
 	load_plugin_textdomain( 'gls-plugin', false, basename( dirname( __FILE__ ) ) . '/languages/' );
+
+	create_gls_plugin_directory_and_htaccess();
 }
 
 add_action( 'init', 'gls_plugin_load_textdomain' );
@@ -147,6 +170,7 @@ function gls_plugin_load() {
 		}, 'gls-plugin', 'gls_plugin_shipper_address_section' );
 	} );
 
+	// Add the meta box callback function
 	function gls_plugin_meta_box_callback( $post ) {
 		echo '<div class="gls-plugin gls-plugin-grid">';
     
@@ -156,20 +180,26 @@ function gls_plugin_load() {
 		echo '</div>';
 	}
 
+	// Add the meta box
 	function gls_plugin_order_meta_box() {
 		add_meta_box(
-			'gls-plugin-meta-box', // ID der Meta-Box
-			__( 'GLS Shipping Label', "gls-plugin" ), // Titel der Meta-Box
-			'gls_plugin_meta_box_callback', // Callback-Funktion für den Inhalt der Box
-			'woocommerce_page_wc-orders', // Post-Typ (WooCommerce Bestellung)
-			'side', // Kontext (wo die Box erscheint): 'normal', 'side', 'advanced'
-			//'high' // Priorität, in der die Box erscheint: 'high', 'low', 'default'
+			'gls-plugin-meta-box', // ID
+			__( 'GLS Shipping Label', "gls-plugin" ), // Title
+			'gls_plugin_meta_box_callback', // Callback
+			'woocommerce_page_wc-orders', // Post Type (page, post, etc.)
+			'side', // Context (normal, advanced, side)
+			'high' // Priority (default, low, high, core)
 		);
 	}
 
 	add_action( 'add_meta_boxes', 'gls_plugin_order_meta_box' );
 
+	// Handle the download return label action
 	function handle_gls_plugin_download_return_label() {
+		if(!is_admin()) {
+			return;
+		}
+
 		$options = get_option( 'gls_plugin_settings' );
 
 		$order_id = $_GET['order_id'];
@@ -186,22 +216,25 @@ function gls_plugin_load() {
 
 		$requestBuilder = new \GlsGroup\Sdk\ParcelProcessing\RequestBuilder\ReturnShipmentRequestBuilder();
 
+		// Set the shipper account
 		$requestBuilder->setShipperAccount( $shipperAccount );
-		$requestBuilder->setShipperAddress(
-			$options['country'] ?? 'DE',
-			$options['postal_code'],
-			$options['city'],
-			$options['street'],
-			$options['name']
-		);
 
-		// Set your company as the recipient
-		$requestBuilder->setRecipientAddress(
+		// Set the shipper address
+		$requestBuilder->setShipperAddress(
 			$order->get_shipping_country() ?? "DE",
 			$order->get_billing_postcode(),
 			$order->get_billing_city(),
 			$order->get_billing_address_1(),
 			$order->get_formatted_billing_full_name()
+		);
+
+		// Set the recipient address
+		$requestBuilder->setRecipientAddress(
+			$options['country'] ?? 'DE',
+			$options['postal_code'],
+			$options['city'],
+			$options['street'],
+			$options['name']
 		);
 
 
@@ -214,7 +247,7 @@ function gls_plugin_load() {
 
 		$shipment = $service->createShipment( $request );
 		$upload_dir = wp_upload_dir();
-		$base_dir = $upload_dir['basedir'];
+		$base_dir = $upload_dir['basedir'] . '/gls-plugin';
 
 		$consignment_id = $shipment->getConsignmentId();
 
@@ -223,7 +256,8 @@ function gls_plugin_load() {
 			file_put_contents( $file_path, $label );
 
 			// Get the URL of the file
-			$file_url = content_url("/uploads/{$shipment->getConsignmentId()}-{$i}.pdf");
+			//$file_url = content_url("/uploads/gls-plugin/{$shipment->getConsignmentId()}-{$i}.pdf");
+			$file_url = admin_url('admin-post.php?action=download_pdf&file_name='.$consignment_id.'-'.$i.'.pdf');
 
 			// Add the URL to the order note
 			$order->add_order_note(
@@ -245,7 +279,12 @@ function gls_plugin_load() {
 
 	add_action( 'admin_post_gls_plugin_download_return_label', 'handle_gls_plugin_download_return_label' );
 
+	// Handle the download label action
 	function handle_gls_plugin_download_label() {
+		if(!is_admin()) {
+			return;
+		}
+
 		$options = get_option( 'gls_plugin_settings' );
 
 		$order_id = $_GET['order_id'];
@@ -281,7 +320,7 @@ function gls_plugin_load() {
 		$shipment = $service->createShipment( $request );
 
 		$upload_dir = wp_upload_dir();
-		$base_dir = $upload_dir['basedir'];
+		$base_dir = $upload_dir['basedir'] . '/gls-plugin';
 
 		$consignment_id = $shipment->getConsignmentId();
 
@@ -290,7 +329,8 @@ function gls_plugin_load() {
 			file_put_contents( $file_path, $label );
 
 			// Get the URL of the file
-			$file_url = content_url("/uploads/{$shipment->getConsignmentId()}-{$i}.pdf");
+			//$file_url = content_url("/uploads/gls-plugin/{$shipment->getConsignmentId()}-{$i}.pdf");
+			$file_url = admin_url('admin-post.php?action=download_pdf&file_name='.$consignment_id.'-'.$i.'.pdf');
 
 			// Add the URL to the order note
 			$order->add_order_note(
@@ -306,6 +346,46 @@ function gls_plugin_load() {
 	}
 
 	add_action( 'admin_post_gls_plugin_download_label', 'handle_gls_plugin_download_label' );
+
+	// Handle the download pdf action
+	function handle_gls_plugin_download_pdf() {
+		// Check if the user is an admin
+		if ( is_admin() ) {
+			// Get the file name from the request
+			$file_name = $_REQUEST['file_name'];
+
+			// Build the file path
+			$upload_dir = wp_upload_dir();
+			$base_dir = $upload_dir['basedir'];
+			$file_path = "{$base_dir}/gls-plugin/{$file_name}";
+
+			// Check if the file exists
+			if ( file_exists($file_path) ) {
+				// Set the headers to force download
+				header('Content-Type: application/octet-stream');
+				header('Content-Disposition: attachment; filename="'.basename($file_path).'"');
+				header('Content-Length: ' . filesize($file_path));
+
+				// Read the file and output its contents
+				readfile($file_path);
+
+				// Stop the script execution
+				exit;
+			} else {
+				$redirect_url = wp_get_referer() ? wp_get_referer() : admin_url();
+				wp_redirect( $redirect_url );
+
+				exit;
+			}
+		}
+
+		// If the user is not an admin or the file does not exist, redirect to the admin dashboard
+		wp_redirect( admin_url() );
+		
+		exit;
+	}
+
+	add_action( 'admin_post_download_pdf', 'handle_gls_plugin_download_pdf' );
 }
 
 add_action( 'plugins_loaded', 'gls_plugin_load', 10 );
