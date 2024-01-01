@@ -13,44 +13,127 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+// Function to create the shipping label
+function create_gls_shipment($order, $options, $isReturn) {
+    $userId = $options['user_id'] ?? "";
+    $password = $options['password'] ?? "";
+    $shipperAccount = $options["shipper_account"] ?? "";
+
+    $logger = new \Psr\Log\NullLogger();
+    $serviceFactory = new \GlsGroup\Sdk\ParcelProcessing\Service\ServiceFactory();
+    $service = $serviceFactory->createShipmentService( $userId, $password, $logger, false );
+
+    $requestBuilder = $isReturn ? new \GlsGroup\Sdk\ParcelProcessing\RequestBuilder\ReturnShipmentRequestBuilder() : new \GlsGroup\Sdk\ParcelProcessing\RequestBuilder\ShipmentRequestBuilder();
+
+    // Set the shipper account
+    $requestBuilder->setShipperAccount( $shipperAccount );
+
+    if ($isReturn) {
+		$requestBuilder->setShipperAddress(
+			$order->get_shipping_country() ?? "DE",
+			$order->get_billing_postcode(),
+			$order->get_billing_city(),
+			$order->get_billing_address_1(),
+			$order->get_formatted_billing_full_name()
+		);
+
+		$requestBuilder->setRecipientAddress(
+			$options['country'] ?? 'DE',
+			$options['postal_code'],
+			$options['city'],
+			$options['street'],
+			$options['name']
+		);
+    } else {
+        $requestBuilder->setShipperAddress(
+			$options['country'] ?? 'DE',
+			$options['postal_code'],
+			$options['city'],
+			$options['street'],
+			$options['name']
+        );
+
+		$requestBuilder->setRecipientAddress(
+            $order->get_shipping_country() ?? "DE",
+            $order->get_billing_postcode(),
+            $order->get_billing_city(),
+            $order->get_billing_address_1(),
+            $order->get_formatted_billing_full_name()
+		);
+	}
+
+    $hasWeight = false;
+
+    foreach ( $order->get_items() as $item_id => $item ) {
+        $product = $item->get_product();
+        $requestBuilder->addParcel( $product->get_weight() * $item->get_quantity() );
+
+        if($product->get_weight() > 0 && $item->get_quantity() > 0) {
+            $hasWeight = true;
+        }
+    }
+
+    if(!$hasWeight) {
+        $requestBuilder->addParcel( 0.1 );
+    }
+
+    $request = $requestBuilder->create();
+
+    return $service->createShipment( $request );
+}
+
+// Handle the download label action
+function handle_gls_labels_download($isReturn) {
+    if(!is_admin()) {
+        return;
+    }
+
+    $options = get_option( 'gls_labels_settings' );
+    $order_id = $_GET['order_id'];
+    $order = wc_get_order( $order_id );
+
+    $shipment = create_gls_shipment($order, $options, $isReturn);
+
+    $upload_dir = wp_upload_dir();
+    $base_dir = $upload_dir['basedir'] . '/gls-labels';
+
+    $consignment_id = $shipment->getConsignmentId();
+
+    foreach ( $shipment->getLabels() as $i => $label ) {
+        $file_path = "{$base_dir}/{$shipment->getConsignmentId()}-{$i}.pdf";
+        file_put_contents( $file_path, $label );
+
+        // Get the URL of the file
+        $file_url = admin_url('admin-post.php?action=download_pdf&file_name='.$consignment_id.'-'.$i.'.pdf');
+
+        // Add the URL to the order note
+       	$labelType = $isReturn ? __( 'GLS Return Shipping Label created. Consignment ID: %s. <a href=\'%s\'>Download label</a>', "gls-labels" ) : __( 'GLS Shipping Label created. Consignment ID: %s. <a href=\'%s\'>Download label</a>', "gls-labels" );
+
+		$order->add_order_note(
+			sprintf(
+				$labelType,
+				$consignment_id,
+				$file_url
+			)
+		);
+    }
+
+    wp_redirect( admin_url( 'post.php?post=' . $order_id . '&action=edit' ) );
+}
+
 // Check if the plugin is configured
 function isPluginConfigured() {
-	// check all options are set
-	$options = get_option( 'gls_labels_settings' );
+    // check all options are set
+    $options = get_option('gls_labels_settings');
+    $requiredOptions = ['user_id', 'password', 'shipper_account', 'country', 'postal_code', 'city', 'street', 'name'];
 
-	if ( ! isset( $options['user_id'] ) || empty( $options['user_id'] ) ) {
-		return false;
-	}
+    foreach ($requiredOptions as $option) {
+        if (!isset($options[$option]) || empty($options[$option])) {
+            return false;
+        }
+    }
 
-	if ( ! isset( $options['password'] ) || empty( $options['password'] ) ) {
-		return false;
-	}
-
-	if ( ! isset( $options['shipper_account'] ) || empty( $options['shipper_account'] ) ) {
-		return false;
-	}
-
-	if ( ! isset( $options['country'] ) || empty( $options['country'] ) ) {
-		return false;
-	}
-
-	if ( ! isset( $options['postal_code'] ) || empty( $options['postal_code'] ) ) {
-		return false;
-	}
-
-	if ( ! isset( $options['city'] ) || empty( $options['city'] ) ) {
-		return false;
-	}
-
-	if ( ! isset( $options['street'] ) || empty( $options['street'] ) ) {
-		return false;
-	}
-
-	if ( ! isset( $options['name'] ) || empty( $options['name'] ) ) {
-		return false;
-	}
-
-	return true;
+    return true;
 }
 
 // Create the plugin directory and .htaccess file
@@ -120,94 +203,81 @@ function gls_labels_load() {
 	} );
 
 	// Add the settings
-	add_action( 'admin_init', function () {
-		// Register the settings
-		register_setting( 'gls-labels', 'gls_labels_settings' );
+	add_action('admin_init', function () {
+		register_setting('gls-labels', 'gls_labels_settings');
 
-		// Auth section
-		add_settings_section( 'gls_labels_auth_section', __( 'Auth', "gls-labels" ), null, 'gls-labels' );
+		$settings = [
+			'gls_labels_auth_section' => [
+				'title' => __('Auth', "gls-labels"),
+				'fields' => [
+					'user_id' => ['title' => __('User ID', "gls-labels"), 'type' => 'text'],
+					'password' => ['title' => __('Password', "gls-labels"), 'type' => 'password'],
+				],
+			],
+			'gls_labels_shipper_account_section' => [
+				'title' => __('Shipper Number', "gls-labels"),
+				'fields' => [
+					'shipper_account' => ['title' => __('Shipper Number', "gls-labels"), 'type' => 'text'],
+				],
+			],
+			'gls_labels_shipper_address_section' => [
+				'title' => __('Shipper Address', "gls-labels"),
+				'fields' => [
+					'country' => ['title' => __('Country', "gls-labels"), 'type' => 'select', 'options' => [
+						'DE' => __('Germany'),
+						'AT' => __('Austria'),
+						'BE' => __('Belgium'),
+						'BG' => __('Bulgaria'),
+						'CZ' => __('Czech Republic'),
+						'DK' => __('Denmark'),
+						'EE' => __('Estonia'),
+						'ES' => __('Spain'),
+						'FI' => __('Finland'),
+						'FR' => __('France'),
+						'IE' => __('Ireland'),
+						'HR' => __('Croatia'),
+						'HU' => __('Hungary'),
+						'IT' => __('Italy'),
+						'LT' => __('Lithuania'),
+						'LU' => __('Luxembourg'),
+						'LV' => __('Latvia'),
+						'MC' => __('Monaco'),
+						'NL' => __('Netherlands'),
+						'PL' => __('Poland'),
+						'PT' => __('Portugal'),
+						'RO' => __('Romania'),
+						'SE' => __('Sweden'),
+						'SI' => __('Slovenia'),
+						'SK' => __('Slovakia'),
+					]],
+					'postal_code' => ['title' => __('Postal Code', "gls-labels"), 'type' => 'text'],
+					'city' => ['title' => __('City', "gls-labels"), 'type' => 'text'],
+					'street' => ['title' => __('Street', "gls-labels"), 'type' => 'text'],
+					'name' => ['title' => __('Name', "gls-labels"), 'type' => 'text'],
+				],
+			],
+		];
 
-		add_settings_field( 'gls_labels_user_id', __( 'User ID', "gls-labels" ), function () {
-			$options = get_option( 'gls_labels_settings' );
-			echo '<input type="text" id="gls_labels_user_id" name="gls_labels_settings[user_id]" value="' . esc_attr( $options['user_id'] ?? "" ) . '">';
-		}, 'gls-labels', 'gls_labels_auth_section' );
+		foreach ($settings as $section => $data) {
+			add_settings_section($section, $data['title'], null, 'gls-labels');
 
-		add_settings_field( 'gls_labels_password', __( 'Password', "gls-labels" ), function () {
-			$options = get_option( 'gls_labels_settings' );
-			echo '<input type="password" id="gls_labels_password" name="gls_labels_settings[password]" value="' . esc_attr( $options['password'] ?? "" ) . '">';
-		}, 'gls-labels', 'gls_labels_auth_section' );
-
-		// Shipper Account section
-		add_settings_section( 'gls_labels_shipper_account_section', __( 'Shipper Number', "gls-labels" ), null, 'gls-labels' );
-
-		add_settings_field( 'gls_labels_shipper_account', __( "Shipper Number", "gls-labels" ), function () {
-			$options = get_option( 'gls_labels_settings' );
-			echo '<input type="text" id="gls_labels_shipper_account" name="gls_labels_settings[shipper_account]" value="' . esc_attr( $options['shipper_account'] ?? "" ) . '">';
-		}, 'gls-labels', 'gls_labels_shipper_account_section' );
-
-		// Shipper Address section
-		add_settings_section( 'gls_labels_shipper_address_section', __( 'Shipper Address', "gls-labels" ), null, 'gls-labels' );
-
-		add_settings_field( 'gls_labels_country', __( 'Country', "gls-labels" ), function () {
-			$options = get_option( 'gls_labels_settings' );
-			$selected_country = $options['country'] ?? "DE";
-
-			$countries = array(
-				'DE' => __( 'Germany' ),
-				'AT' => __( 'Austria' ),
-				'BE' => __( 'Belgium' ),
-				'BG' => __( 'Bulgaria' ),
-				'CZ' => __( 'Czech Republic' ),
-				'DK' => __( 'Denmark' ),
-				'EE' => __( 'Estonia' ),
-				'ES' => __( 'Spain' ),
-				'FI' => __( 'Finland' ),
-				'FR' => __( 'France' ),
-				'IE' => __( 'Ireland' ),
-				'HR' => __( 'Croatia' ),
-				'HU' => __( 'Hungary' ),
-				'IT' => __( 'Italy' ),
-				'LT' => __( 'Lithuania' ),
-				'LU' => __( 'Luxembourg' ),
-				'LV' => __( 'Latvia' ),
-				'MC' => __( 'Monaco' ),
-				'NL' => __( 'Netherlands' ),
-				'PL' => __( 'Poland' ),
-				'PT' => __( 'Portugal' ),
-				'RO' => __( 'Romania' ),
-				'SE' => __( 'Sweden' ),
-				'SI' => __( 'Slovenia' ),
-				'SK' => __( 'Slovakia' )
-			);
-
-			echo '<select id="gls_labels_country" name="gls_labels_settings[country]">';
-			foreach ( $countries as $code => $name ) {
-				$selected = ( $code == $selected_country ) ? 'selected' : '';
-				echo "<option value='$code' $selected>$name</option>";
+			foreach ($data['fields'] as $field => $field_data) {
+				add_settings_field('gls_labels_' . $field, $field_data['title'], function () use ($field, $field_data) {
+					$options = get_option('gls_labels_settings');
+					if ($field_data['type'] === 'select') {
+						echo '<select id="gls_labels_' . $field . '" name="gls_labels_settings[' . $field . ']">';
+						foreach ($field_data['options'] as $option_value => $option_title) {
+							$selected = $options[$field] === $option_value ? ' selected' : '';
+							echo '<option value="' . esc_attr($option_value) . '"' . $selected . '>' . esc_html($option_title) . '</option>';
+						}
+						echo '</select>';
+					} else {
+						echo '<input type="' . $field_data['type'] . '" id="gls_labels_' . $field . '" name="gls_labels_settings[' . $field . ']" value="' . esc_attr($options[$field] ?? "") . '">';
+					}
+				}, 'gls-labels', $section);
 			}
-			echo '</select>';
-		}, 'gls-labels', 'gls_labels_shipper_address_section' );
-
-		add_settings_field( 'gls_labels_postal_code', __( 'Postal Code', "gls-labels" ), function () {
-			$options = get_option( 'gls_labels_settings' );
-			echo '<input type="text" id="gls_labels_postal_code" name="gls_labels_settings[postal_code]" value="' . esc_attr( $options['postal_code'] ?? "" ) . '">';
-		}, 'gls-labels', 'gls_labels_shipper_address_section' );
-
-		add_settings_field( 'gls_labels_city', __( 'City', "gls-labels" ), function () {
-			$options = get_option( 'gls_labels_settings' );
-			echo '<input type="text" id="gls_labels_city" name="gls_labels_settings[city]" value="' . esc_attr( $options['city'] ?? "" ) . '">';
-		}, 'gls-labels', 'gls_labels_shipper_address_section' );
-
-		add_settings_field( 'gls_labels_street', __( 'Street', "gls-labels" ), function () {
-			$options = get_option( 'gls_labels_settings' );
-			echo '<input type="text" id="gls_labels_street" name="gls_labels_settings[street]" value="' . esc_attr( $options['street'] ?? "" ) . '">';
-		}, 'gls-labels', 'gls_labels_shipper_address_section' );
-
-		add_settings_field( 'gls_labels_name', __( 'Name', "gls-labels" ), function () {
-			$options = get_option( 'gls_labels_settings' );
-			echo '<input type="text" id="gls_labels_name" name="gls_labels_settings[name]" value="' . esc_attr( $options['name'] ?? "" ) . '">';
-		}, 'gls-labels', 'gls_labels_shipper_address_section' );
-	} );
+		}
+	});
 
 	// Add the meta box callback function
 	function gls_labels_meta_box_callback( $post ) {
@@ -240,172 +310,14 @@ function gls_labels_load() {
 
 	add_action( 'add_meta_boxes', 'gls_labels_order_meta_box' );
 
-	// Handle the download return label action
 	function handle_gls_labels_download_return_label() {
-		if(!is_admin()) {
-			return;
-		}
-
-		$options = get_option( 'gls_labels_settings' );
-
-		$order_id = $_GET['order_id'];
-
-		$order = wc_get_order( $order_id );
-
-		$userId = $options['user_id'] ?? "";
-		$password = $options['password'] ?? "";
-		$shipperAccount = $options["shipper_account"] ?? "";
-
-		$logger = new \Psr\Log\NullLogger();
-		$serviceFactory = new \GlsGroup\Sdk\ParcelProcessing\Service\ServiceFactory();
-		$service = $serviceFactory->createShipmentService( $userId, $password, $logger, false );
-
-		$requestBuilder = new \GlsGroup\Sdk\ParcelProcessing\RequestBuilder\ReturnShipmentRequestBuilder();
-
-		// Set the shipper account
-		$requestBuilder->setShipperAccount( $shipperAccount );
-
-		// Set the shipper address
-		$requestBuilder->setShipperAddress(
-			$order->get_shipping_country() ?? "DE",
-			$order->get_billing_postcode(),
-			$order->get_billing_city(),
-			$order->get_billing_address_1(),
-			$order->get_formatted_billing_full_name()
-		);
-
-		// Set the recipient address
-		$requestBuilder->setRecipientAddress(
-			$options['country'] ?? 'DE',
-			$options['postal_code'],
-			$options['city'],
-			$options['street'],
-			$options['name']
-		);
-
-
-		$hasWeight = false;
-
-		foreach ( $order->get_items() as $item_id => $item ) {
-			$product = $item->get_product();
-			$requestBuilder->addParcel( $product->get_weight() * $item->get_quantity() );
-
-			if($product->get_weight() > 0 && $item->get_quantity() > 0) {
-				$hasWeight = true;
-			}
-		}
-
-		if(!$hasWeight) {
-			$requestBuilder->addParcel( 0.1 );
-		}
-
-		$request = $requestBuilder->create();
-
-		$shipment = $service->createShipment( $request );
-		$upload_dir = wp_upload_dir();
-		$base_dir = $upload_dir['basedir'] . '/gls-labels';
-
-		$consignment_id = $shipment->getConsignmentId();
-
-		foreach ( $shipment->getLabels() as $i => $label ) {
-			$file_path = "{$base_dir}/{$shipment->getConsignmentId()}-{$i}.pdf";
-			file_put_contents( $file_path, $label );
-
-			// Get the URL of the file
-			$file_url = admin_url('admin-post.php?action=download_pdf&file_name='.$consignment_id.'-'.$i.'.pdf');
-
-			// Add the URL to the order note
-			$order->add_order_note(
-				sprintf(
-					__( 'GLS Return Shipping Label created. Consignment ID: %s. <a href=\'%s\'>Download label</a>', "gls-labels" ),
-					$consignment_id,
-					$file_url
-				)
-			);
-		}
-
-		foreach ( $shipment->getLabels() as $i => $label ) {
-			$file_path = "{$base_dir}/{$shipment->getConsignmentId()}-{$i}.pdf";
-			file_put_contents( $file_path, $label );
-		}
-
-		wp_redirect( admin_url( 'post.php?post=' . $order_id . '&action=edit' ) );
+		handle_gls_labels_download(true);
 	}
 
 	add_action( 'admin_post_gls_labels_download_return_label', 'handle_gls_labels_download_return_label' );
 
-	// Handle the download label action
 	function handle_gls_labels_download_label() {
-		if(!is_admin()) {
-			return;
-		}
-
-		$options = get_option( 'gls_labels_settings' );
-
-		$order_id = $_GET['order_id'];
-
-		$order = wc_get_order( $order_id );
-
-		$userId = $options['user_id'] ?? "";
-		$password = $options['password'] ?? "";
-		$shipperAccount = $options["shipper_account"] ?? "";
-
-		$logger = new \Psr\Log\NullLogger();
-		$serviceFactory = new \GlsGroup\Sdk\ParcelProcessing\Service\ServiceFactory();
-		$service = $serviceFactory->createShipmentService( $userId, $password, $logger, false );
-
-		$requestBuilder = new \GlsGroup\Sdk\ParcelProcessing\RequestBuilder\ShipmentRequestBuilder();
-		$requestBuilder->setShipperAccount( $shipperAccount );
-		$requestBuilder->setRecipientAddress(
-			$order->get_shipping_country() ?? "DE",
-			$order->get_billing_postcode(),
-			$order->get_billing_city(),
-			$order->get_billing_address_1(),
-			$order->get_formatted_billing_full_name()
-		);
-
-		$hasWeight = false;
-
-		foreach ( $order->get_items() as $item_id => $item ) {
-			$product = $item->get_product();
-			$requestBuilder->addParcel( $product->get_weight() * $item->get_quantity() );
-
-			if($product->get_weight() > 0 && $item->get_quantity() > 0) {
-				$hasWeight = true;
-			}
-		}
-
-		if(!$hasWeight) {
-			$requestBuilder->addParcel( 0.1 );
-		}
-
-		$request = $requestBuilder->create();
-
-		$shipment = $service->createShipment( $request );
-
-		$upload_dir = wp_upload_dir();
-		$base_dir = $upload_dir['basedir'] . '/gls-labels';
-
-		$consignment_id = $shipment->getConsignmentId();
-
-		foreach ( $shipment->getLabels() as $i => $label ) {
-			$file_path = "{$base_dir}/{$shipment->getConsignmentId()}-{$i}.pdf";
-			file_put_contents( $file_path, $label );
-
-			// Get the URL of the file
-			$file_url = admin_url('admin-post.php?action=download_pdf&file_name='.$consignment_id.'-'.$i.'.pdf');
-
-			// Add the URL to the order note
-			$order->add_order_note(
-				sprintf(
-					__( 'GLS Shipping Label created. Consignment ID: %s. <a href=\'%s\'>Download label</a>', "gls-labels" ),
-					$consignment_id,
-					$file_url
-				)
-			);
-		}
-
-		wp_redirect( admin_url( 'post.php?post=' . $order_id . '&action=edit' ) );
+		handle_gls_labels_download(false);
 	}
 
 	add_action( 'admin_post_gls_labels_download_label', 'handle_gls_labels_download_label' );
