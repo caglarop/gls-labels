@@ -1,11 +1,11 @@
 <?php
 /*
-Plugin Name: GLS Plugin
-Description: This is a plugin to create GLS shipping labels
-Version: 1.0.1
+Plugin Name: WooGLS Labels
+Description: This is a WooCommerce plugin to create GLS shipping and return labels
+Version: 1.0.2
 Author: Candan Tombas
 Author URI: https://devantia.com
-Text Domain: gls-plugin
+Text Domain: woogls-labels
 Domain Path: /languages
 */
 
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 // Check if the plugin is configured
 function isPluginConfigured() {
 	// check all options are set
-	$options = get_option( 'gls_plugin_settings' );
+	$options = get_option( 'woogls_labels_settings' );
 
 	if ( ! isset( $options['user_id'] ) || empty( $options['user_id'] ) ) {
 		return false;
@@ -54,18 +54,18 @@ function isPluginConfigured() {
 }
 
 // Create the plugin directory and .htaccess file
-function create_gls_plugin_directory_and_htaccess() {
+function create_woogls_labels_directory_and_htaccess() {
 	$upload_dir = wp_upload_dir();
 	$base_dir = $upload_dir['basedir'];
-	$gls_plugin_dir = "{$base_dir}/gls-plugin";
+	$woogls_labels_dir = "{$base_dir}/woogls-labels";
 
 	// Check if the directory exists, if not, create it
-	if ( ! file_exists( $gls_plugin_dir ) ) {
-		mkdir( $gls_plugin_dir, 0755, true );
+	if ( ! file_exists( $woogls_labels_dir ) ) {
+		mkdir( $woogls_labels_dir, 0755, true );
 	}
 
 	// Check if the .htaccess file exists, if not, create it
-	$htaccess_file = "{$gls_plugin_dir}/.htaccess";
+	$htaccess_file = "{$woogls_labels_dir}/.htaccess";
 		
 	if ( ! file_exists( $htaccess_file ) ) {
 		$htaccess_content = "deny from all";
@@ -73,44 +73,44 @@ function create_gls_plugin_directory_and_htaccess() {
 	}
 }
 
-function gls_plugin_load_textdomain() {
-	load_plugin_textdomain( 'gls-plugin', false, basename( dirname( __FILE__ ) ) . '/languages/' );
+function woogls_labels_load_textdomain() {
+	load_plugin_textdomain( 'woogls-labels', false, basename( dirname( __FILE__ ) ) . '/languages/' );
 
-	create_gls_plugin_directory_and_htaccess();
+	create_woogls_labels_directory_and_htaccess();
 }
 
-add_action( 'init', 'gls_plugin_load_textdomain' );
+add_action( 'init', 'woogls_labels_load_textdomain' );
 
-function gls_plugin_load() {
+function woogls_labels_load() {
 	if ( ! class_exists( 'WooCommerce' ) ) {
 		return;
 	}
 
-	function gls_plugin_styles() {
-		wp_enqueue_style('gls-plugin-styles', plugins_url('styles.css', __FILE__));
+	function woogls_labels_styles() {
+		wp_enqueue_style('woogls-labels-styles', plugins_url('styles.css', __FILE__));
 	}
 
-	add_action('admin_enqueue_scripts', 'gls_plugin_styles');
+	add_action('admin_enqueue_scripts', 'woogls_labels_styles');
 
-	if ( ! defined( 'GLS_PLUGIN_DIR' ) ) {
-		define( 'GLS_PLUGIN_DIR', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
+	if ( ! defined( 'WOOGLS_LABELS_DIR' ) ) {
+		define( 'WOOGLS_LABELS_DIR', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
 	}
 
-	require_once( GLS_PLUGIN_DIR . '/vendor/autoload.php' );
+	require_once( WOOGLS_LABELS_DIR . '/vendor/autoload.php' );
 
 
 	// Add the settings page
 	add_action( 'admin_menu', function () {
-		add_options_page( __( "GLS Settings", "gls-plugin" ), __( "GLS Settings", "gls-plugin" ), 'manage_options', 'gls-plugin', function () {
+		add_options_page( __( "GLS Settings", "woogls-labels" ), __( "GLS Settings", "woogls-labels" ), 'manage_options', 'woogls-labels', function () {
 			?>
 			<div class="wrap">
 				<h1>
-					<?php echo __( "GLS Settings", "gls-plugin" ); ?>
+					<?php echo __( "GLS Settings", "woogls-labels" ); ?>
 				</h1>
 				<form method="post" action="options.php">
 					<?php
-					settings_fields( 'gls-plugin' );
-					do_settings_sections( 'gls-plugin' );
+					settings_fields( 'woogls-labels' );
+					do_settings_sections( 'woogls-labels' );
 					submit_button();
 					?>
 				</form>
@@ -122,34 +122,34 @@ function gls_plugin_load() {
 	// Add the settings
 	add_action( 'admin_init', function () {
 		// Register the settings
-		register_setting( 'gls-plugin', 'gls_plugin_settings' );
+		register_setting( 'woogls-labels', 'woogls_labels_settings' );
 
 		// Auth section
-		add_settings_section( 'gls_plugin_auth_section', __( 'Auth', "gls-plugin" ), null, 'gls-plugin' );
+		add_settings_section( 'woogls_labels_auth_section', __( 'Auth', "woogls-labels" ), null, 'woogls-labels' );
 
-		add_settings_field( 'gls_plugin_user_id', __( 'User ID', "gls-plugin" ), function () {
-			$options = get_option( 'gls_plugin_settings' );
-			echo '<input type="text" id="gls_plugin_user_id" name="gls_plugin_settings[user_id]" value="' . esc_attr( $options['user_id'] ?? "" ) . '">';
-		}, 'gls-plugin', 'gls_plugin_auth_section' );
+		add_settings_field( 'woogls_labels_user_id', __( 'User ID', "woogls-labels" ), function () {
+			$options = get_option( 'woogls_labels_settings' );
+			echo '<input type="text" id="woogls_labels_user_id" name="woogls_labels_settings[user_id]" value="' . esc_attr( $options['user_id'] ?? "" ) . '">';
+		}, 'woogls-labels', 'woogls_labels_auth_section' );
 
-		add_settings_field( 'gls_plugin_password', __( 'Password', "gls-plugin" ), function () {
-			$options = get_option( 'gls_plugin_settings' );
-			echo '<input type="password" id="gls_plugin_password" name="gls_plugin_settings[password]" value="' . esc_attr( $options['password'] ?? "" ) . '">';
-		}, 'gls-plugin', 'gls_plugin_auth_section' );
+		add_settings_field( 'woogls_labels_password', __( 'Password', "woogls-labels" ), function () {
+			$options = get_option( 'woogls_labels_settings' );
+			echo '<input type="password" id="woogls_labels_password" name="woogls_labels_settings[password]" value="' . esc_attr( $options['password'] ?? "" ) . '">';
+		}, 'woogls-labels', 'woogls_labels_auth_section' );
 
 		// Shipper Account section
-		add_settings_section( 'gls_plugin_shipper_account_section', __( 'Shipper Number', "gls-plugin" ), null, 'gls-plugin' );
+		add_settings_section( 'woogls_labels_shipper_account_section', __( 'Shipper Number', "woogls-labels" ), null, 'woogls-labels' );
 
-		add_settings_field( 'gls_plugin_shipper_account', __( "Shipper Number", "gls-plugin" ), function () {
-			$options = get_option( 'gls_plugin_settings' );
-			echo '<input type="text" id="gls_plugin_shipper_account" name="gls_plugin_settings[shipper_account]" value="' . esc_attr( $options['shipper_account'] ?? "" ) . '">';
-		}, 'gls-plugin', 'gls_plugin_shipper_account_section' );
+		add_settings_field( 'woogls_labels_shipper_account', __( "Shipper Number", "woogls-labels" ), function () {
+			$options = get_option( 'woogls_labels_settings' );
+			echo '<input type="text" id="woogls_labels_shipper_account" name="woogls_labels_settings[shipper_account]" value="' . esc_attr( $options['shipper_account'] ?? "" ) . '">';
+		}, 'woogls-labels', 'woogls_labels_shipper_account_section' );
 
 		// Shipper Address section
-		add_settings_section( 'gls_plugin_shipper_address_section', __( 'Shipper Address', "gls-plugin" ), null, 'gls-plugin' );
+		add_settings_section( 'woogls_labels_shipper_address_section', __( 'Shipper Address', "woogls-labels" ), null, 'woogls-labels' );
 
-		add_settings_field( 'gls_plugin_country', __( 'Country', "gls-plugin" ), function () {
-			$options = get_option( 'gls_plugin_settings' );
+		add_settings_field( 'woogls_labels_country', __( 'Country', "woogls-labels" ), function () {
+			$options = get_option( 'woogls_labels_settings' );
 			$selected_country = $options['country'] ?? "DE";
 
 			$countries = array(
@@ -180,73 +180,73 @@ function gls_plugin_load() {
 				'SK' => __( 'Slovakia' )
 			);
 
-			echo '<select id="gls_plugin_country" name="gls_plugin_settings[country]">';
+			echo '<select id="woogls_labels_country" name="woogls_labels_settings[country]">';
 			foreach ( $countries as $code => $name ) {
 				$selected = ( $code == $selected_country ) ? 'selected' : '';
 				echo "<option value='$code' $selected>$name</option>";
 			}
 			echo '</select>';
-		}, 'gls-plugin', 'gls_plugin_shipper_address_section' );
+		}, 'woogls-labels', 'woogls_labels_shipper_address_section' );
 
-		add_settings_field( 'gls_plugin_postal_code', __( 'Postal Code', "gls-plugin" ), function () {
-			$options = get_option( 'gls_plugin_settings' );
-			echo '<input type="text" id="gls_plugin_postal_code" name="gls_plugin_settings[postal_code]" value="' . esc_attr( $options['postal_code'] ?? "" ) . '">';
-		}, 'gls-plugin', 'gls_plugin_shipper_address_section' );
+		add_settings_field( 'woogls_labels_postal_code', __( 'Postal Code', "woogls-labels" ), function () {
+			$options = get_option( 'woogls_labels_settings' );
+			echo '<input type="text" id="woogls_labels_postal_code" name="woogls_labels_settings[postal_code]" value="' . esc_attr( $options['postal_code'] ?? "" ) . '">';
+		}, 'woogls-labels', 'woogls_labels_shipper_address_section' );
 
-		add_settings_field( 'gls_plugin_city', __( 'City', "gls-plugin" ), function () {
-			$options = get_option( 'gls_plugin_settings' );
-			echo '<input type="text" id="gls_plugin_city" name="gls_plugin_settings[city]" value="' . esc_attr( $options['city'] ?? "" ) . '">';
-		}, 'gls-plugin', 'gls_plugin_shipper_address_section' );
+		add_settings_field( 'woogls_labels_city', __( 'City', "woogls-labels" ), function () {
+			$options = get_option( 'woogls_labels_settings' );
+			echo '<input type="text" id="woogls_labels_city" name="woogls_labels_settings[city]" value="' . esc_attr( $options['city'] ?? "" ) . '">';
+		}, 'woogls-labels', 'woogls_labels_shipper_address_section' );
 
-		add_settings_field( 'gls_plugin_street', __( 'Street', "gls-plugin" ), function () {
-			$options = get_option( 'gls_plugin_settings' );
-			echo '<input type="text" id="gls_plugin_street" name="gls_plugin_settings[street]" value="' . esc_attr( $options['street'] ?? "" ) . '">';
-		}, 'gls-plugin', 'gls_plugin_shipper_address_section' );
+		add_settings_field( 'woogls_labels_street', __( 'Street', "woogls-labels" ), function () {
+			$options = get_option( 'woogls_labels_settings' );
+			echo '<input type="text" id="woogls_labels_street" name="woogls_labels_settings[street]" value="' . esc_attr( $options['street'] ?? "" ) . '">';
+		}, 'woogls-labels', 'woogls_labels_shipper_address_section' );
 
-		add_settings_field( 'gls_plugin_name', __( 'Name', "gls-plugin" ), function () {
-			$options = get_option( 'gls_plugin_settings' );
-			echo '<input type="text" id="gls_plugin_name" name="gls_plugin_settings[name]" value="' . esc_attr( $options['name'] ?? "" ) . '">';
-		}, 'gls-plugin', 'gls_plugin_shipper_address_section' );
+		add_settings_field( 'woogls_labels_name', __( 'Name', "woogls-labels" ), function () {
+			$options = get_option( 'woogls_labels_settings' );
+			echo '<input type="text" id="woogls_labels_name" name="woogls_labels_settings[name]" value="' . esc_attr( $options['name'] ?? "" ) . '">';
+		}, 'woogls-labels', 'woogls_labels_shipper_address_section' );
 	} );
 
 	// Add the meta box callback function
-	function gls_plugin_meta_box_callback( $post ) {
+	function woogls_labels_meta_box_callback( $post ) {
 
 		if(!isPluginConfigured()) {
-			echo '<div class="gls-plugin gls-plugin-grid">';
-			echo '<div class="form-field"><a class="button" href="' . admin_url( 'options-general.php?page=gls-plugin' ) . '" id="gls-plugin-configure">' . __( "Configure GLS Plugin", "gls-plugin" ) . '</a></div>';
+			echo '<div class="woogls-labels woogls-labels-grid">';
+			echo '<div class="form-field"><a class="button" href="' . admin_url( 'options-general.php?page=woogls-labels' ) . '" id="woogls-labels-configure">' . __( "Configure WooGLS Labels", "woogls-labels" ) . '</a></div>';
 			echo '</div>';
 		} else {
-			echo '<div class="gls-plugin gls-plugin-grid">';
+			echo '<div class="woogls-labels woogls-labels-grid">';
     
-			echo '<div class="form-field"><a class="button" href="' . admin_url( 'admin-post.php?action=gls_plugin_download_label&order_id=' . $post->ID ) . '" id="gls-plugin-create-label">' . __( "Create Shipping Label", "gls-plugin" ) . '</a></div>';
-			echo '<div class="form-field"><a class="button" href="' . admin_url( 'admin-post.php?action=gls_plugin_download_return_label&order_id=' . $post->ID ) . '" id="gls-plugin-create-return-label">' . __( "Create Return Label", "gls-plugin" ) . '</a></div>';
+			echo '<div class="form-field"><a class="button" href="' . admin_url( 'admin-post.php?action=woogls_labels_download_label&order_id=' . $post->ID ) . '" id="woogls-labels-create-label">' . __( "Create Shipping Label", "woogls-labels" ) . '</a></div>';
+			echo '<div class="form-field"><a class="button" href="' . admin_url( 'admin-post.php?action=woogls_labels_download_return_label&order_id=' . $post->ID ) . '" id="woogls-labels-create-return-label">' . __( "Create Return Label", "woogls-labels" ) . '</a></div>';
 		
 			echo '</div>';
 		}
 	}
 
 	// Add the meta box
-	function gls_plugin_order_meta_box() {
+	function woogls_labels_order_meta_box() {
 		add_meta_box(
-			'gls-plugin-meta-box', // ID
-			__( 'GLS Shipping Label', "gls-plugin" ), // Title
-			'gls_plugin_meta_box_callback', // Callback
+			'woogls-labels-meta-box', // ID
+			__( 'GLS Shipping Label', "woogls-labels" ), // Title
+			'woogls_labels_meta_box_callback', // Callback
 			'woocommerce_page_wc-orders', // Post Type (page, post, etc.)
 			'side', // Context (normal, advanced, side)
 			'high' // Priority (default, low, high, core)
 		);
 	}
 
-	add_action( 'add_meta_boxes', 'gls_plugin_order_meta_box' );
+	add_action( 'add_meta_boxes', 'woogls_labels_order_meta_box' );
 
 	// Handle the download return label action
-	function handle_gls_plugin_download_return_label() {
+	function handle_woogls_labels_download_return_label() {
 		if(!is_admin()) {
 			return;
 		}
 
-		$options = get_option( 'gls_plugin_settings' );
+		$options = get_option( 'woogls_labels_settings' );
 
 		$order_id = $_GET['order_id'];
 
@@ -303,7 +303,7 @@ function gls_plugin_load() {
 
 		$shipment = $service->createShipment( $request );
 		$upload_dir = wp_upload_dir();
-		$base_dir = $upload_dir['basedir'] . '/gls-plugin';
+		$base_dir = $upload_dir['basedir'] . '/woogls-labels';
 
 		$consignment_id = $shipment->getConsignmentId();
 
@@ -317,7 +317,7 @@ function gls_plugin_load() {
 			// Add the URL to the order note
 			$order->add_order_note(
 				sprintf(
-					__( 'GLS Return Shipping Label created. Consignment ID: %s. <a href=\'%s\'>Download label</a>', "gls-plugin" ),
+					__( 'GLS Return Shipping Label created. Consignment ID: %s. <a href=\'%s\'>Download label</a>', "woogls-labels" ),
 					$consignment_id,
 					$file_url
 				)
@@ -332,15 +332,15 @@ function gls_plugin_load() {
 		wp_redirect( admin_url( 'post.php?post=' . $order_id . '&action=edit' ) );
 	}
 
-	add_action( 'admin_post_gls_plugin_download_return_label', 'handle_gls_plugin_download_return_label' );
+	add_action( 'admin_post_woogls_labels_download_return_label', 'handle_woogls_labels_download_return_label' );
 
 	// Handle the download label action
-	function handle_gls_plugin_download_label() {
+	function handle_woogls_labels_download_label() {
 		if(!is_admin()) {
 			return;
 		}
 
-		$options = get_option( 'gls_plugin_settings' );
+		$options = get_option( 'woogls_labels_settings' );
 
 		$order_id = $_GET['order_id'];
 
@@ -384,7 +384,7 @@ function gls_plugin_load() {
 		$shipment = $service->createShipment( $request );
 
 		$upload_dir = wp_upload_dir();
-		$base_dir = $upload_dir['basedir'] . '/gls-plugin';
+		$base_dir = $upload_dir['basedir'] . '/woogls-labels';
 
 		$consignment_id = $shipment->getConsignmentId();
 
@@ -398,7 +398,7 @@ function gls_plugin_load() {
 			// Add the URL to the order note
 			$order->add_order_note(
 				sprintf(
-					__( 'GLS Shipping Label created. Consignment ID: %s. <a href=\'%s\'>Download label</a>', "gls-plugin" ),
+					__( 'GLS Shipping Label created. Consignment ID: %s. <a href=\'%s\'>Download label</a>', "woogls-labels" ),
 					$consignment_id,
 					$file_url
 				)
@@ -408,10 +408,10 @@ function gls_plugin_load() {
 		wp_redirect( admin_url( 'post.php?post=' . $order_id . '&action=edit' ) );
 	}
 
-	add_action( 'admin_post_gls_plugin_download_label', 'handle_gls_plugin_download_label' );
+	add_action( 'admin_post_woogls_labels_download_label', 'handle_woogls_labels_download_label' );
 
 	// Handle the download pdf action
-	function handle_gls_plugin_download_pdf() {
+	function handle_woogls_labels_download_pdf() {
 		// Check if the user is an admin
 		if ( is_admin() ) {
 			// Get the file name from the request
@@ -420,7 +420,7 @@ function gls_plugin_load() {
 			// Build the file path
 			$upload_dir = wp_upload_dir();
 			$base_dir = $upload_dir['basedir'];
-			$file_path = "{$base_dir}/gls-plugin/{$file_name}";
+			$file_path = "{$base_dir}/woogls-labels/{$file_name}";
 
 			// Check if the file exists
 			if ( file_exists($file_path) ) {
@@ -448,7 +448,7 @@ function gls_plugin_load() {
 		exit;
 	}
 
-	add_action( 'admin_post_download_pdf', 'handle_gls_plugin_download_pdf' );
+	add_action( 'admin_post_download_pdf', 'handle_woogls_labels_download_pdf' );
 }
 
-add_action( 'plugins_loaded', 'gls_plugin_load', 10 );
+add_action( 'plugins_loaded', 'woogls_labels_load', 10 );

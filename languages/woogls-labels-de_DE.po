@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: GLS Plugin 1.0\n"
+"Project-Id-Version: WooGLS Labels 1.0.2\n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
@@ -12,11 +12,11 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.4.2\n"
 
-msgid "GLS Plugin"
-msgstr "GLS Plugin"
+msgid "WooGLS Labels"
+msgstr "WooGLS Labels"
 
-msgid "This is a plugin to create GLS shipping labels"
-msgstr "Dies ist ein Plugin zur Erstellung von GLS-Versandetiketten"
+msgid "This is a WooCommerce plugin to create GLS shipping and return labels"
+msgstr "Dies ist ein WooCommerce-Plugin zur Erstellung von GLS-Versand- und Rücksendeetiketten"
 
 msgid "GLS Settings"
 msgstr "GLS Einstellungen"
@@ -138,5 +138,5 @@ msgstr "GLS Rücksendeetikett erstellt. Sendungs-ID: %s. <a href='%s'>Etikett he
 msgid "GLS Shipping Label created. Consignment ID: %s. <a href='%s'>Download label</a>"
 msgstr "GLS Versandetikett erstellt. Sendungs-ID: %s. <a href='%s'>Etikett herunterladen</a>"
 
-msgid "Configure GLS Plugin"
-msgstr "GLS Plugin konfigurieren"
+msgid "Configure WooGLS Labels"
+msgstr "WooGLS Labels konfigurieren"

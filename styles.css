@@ -1,8 +1,8 @@
-.gls-plugin .button {
+.woogls-labels .button {
   width: 100%;
 }
 
-.gls-plugin-grid {
+.woogls-labels-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 10px;

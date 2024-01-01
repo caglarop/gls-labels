@@ -1,17 +1,17 @@
-# GLS Plugin 📦
+# WooGLS Labels 📦
 
-![GLS Plugin Logo](./icon-256x256.png)
+![Logo](./icon-256x256.png)
 
 ![Stars](https://img.shields.io/github/stars/caglarop/gls-plugin)
 ![Forks](https://img.shields.io/github/forks/caglarop/gls-plugin)
 ![Issues](https://img.shields.io/github/issues/caglarop/gls-plugin)
 ![License](https://img.shields.io/github/license/caglarop/gls-plugin)
 
-Das GLS Plugin ist ein WordPress Plugin, das sich mit der GLS Web API für Paketverarbeitung und Paketstornierung integriert und ermöglicht die Erstellung von GLS Versandetiketten direkt aus Ihrem WordPress Dashboard.
+Das WooGLS Labels ist ein WordPress Plugin, das sich mit der GLS Web API für Paketverarbeitung und Paketstornierung integriert und ermöglicht die Erstellung von GLS Versandetiketten direkt aus Ihrem WordPress Dashboard.
 
 ## 🔄 Kompatibilität
 
-Das GLS Plugin ist kompatibel mit PHP-Versionen von 7.4 bis 8.3.
+Das WooGLS Labels ist kompatibel mit PHP-Versionen von 7.4 bis 8.3.
 
 ## 🌟 Funktionen
 
@@ -23,10 +23,10 @@ Das GLS Plugin ist kompatibel mit PHP-Versionen von 7.4 bis 8.3.
 
 ## 📥 Installation
 
-Sie können das GLS Plugin direkt aus dem WordPress Admin-Panel installieren:
+Sie können das WooGLS Labels direkt aus dem WordPress Admin-Panel installieren:
 
 1. Gehen Sie zum Menü "Plugins" und klicken Sie auf "Neu hinzufügen".
-2. Suchen Sie nach "GLS Plugin".
+2. Suchen Sie nach "WooGLS Labels".
 3. Klicken Sie auf "Jetzt installieren" und dann auf "Aktivieren".
 
 Für die manuelle Installation:
@@ -37,7 +37,7 @@ Für die manuelle Installation:
 
 ## 🚀 Nutzung
 
-Nach der Aktivierung des Plugins können Sie es konfigurieren, indem Sie zu Ihrem WordPress Dashboard gehen und zu "Einstellungen" -> "GLS Plugin" navigieren. Hier können Sie Ihre GLS Benutzer-ID, Ihr Passwort, Ihre Versender-Kontonummer und Ihre Versender-Adresse eingeben.
+Nach der Aktivierung des Plugins können Sie es konfigurieren, indem Sie zu Ihrem WordPress Dashboard gehen und zu "Einstellungen" -> "WooGLS Labels" navigieren. Hier können Sie Ihre GLS Benutzer-ID, Ihr Passwort, Ihre Versender-Kontonummer und Ihre Versender-Adresse eingeben.
 
 Um ein Versand- oder Rücksendeetikett zu erstellen, gehen Sie zur Bestellseite und klicken Sie auf "Versandetikett erstellen" oder "Rücksendeetikett erstellen" in der GLS Metabox. Das ausgewählte Etikett wird dann erstellt und eine Notiz wird zur Bestellung hinzugefügt mit der Sendungsnummer und einem Download-Link für das Etikett.
 
