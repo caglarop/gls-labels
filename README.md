@@ -9,6 +9,10 @@
 
 The GLS Plugin is a WordPress plugin that integrates with the GLS Web API for Parcel Processing and Parcel Cancellation, allowing the creation of GLS shipping labels directly from your WordPress dashboard.
 
+## 🔄 Compatibility
+
+The GLS Plugin is compatible with PHP versions from 7.4 to 8.3.
+
 ## 🌟 Features
 
 - Integration with GLS Web API for Parcel Processing and Parcel Cancellation.

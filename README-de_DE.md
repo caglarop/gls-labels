@@ -9,6 +9,10 @@
 
 Das GLS Plugin ist ein WordPress Plugin, das sich mit der GLS Web API für Paketverarbeitung und Paketstornierung integriert und ermöglicht die Erstellung von GLS Versandetiketten direkt aus Ihrem WordPress Dashboard.
 
+## 🔄 Kompatibilität
+
+Das GLS Plugin ist kompatibel mit PHP-Versionen von 7.4 bis 8.3.
+
 ## 🌟 Funktionen
 
 - Integration mit der GLS Web API für Paketverarbeitung und Paketstornierung.

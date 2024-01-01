@@ -9,6 +9,10 @@
 
 GLS Eklentisi, GLS Web API'si ile Paket İşleme ve Paket İptali için entegre olan ve GLS kargo etiketlerini doğrudan WordPress kontrol panelinizden oluşturmanızı sağlayan bir WordPress eklentisidir.
 
+## 🔄 Uyumluluk
+
+GLS Eklentisi, PHP'nin 7.4 ile 8.3 sürümleri arasındaki sürümlerle uyumludur.
+
 ## 🌟 Özellikler
 
 - GLS Web API'si ile Paket İşleme ve Paket İptali için entegrasyon.
