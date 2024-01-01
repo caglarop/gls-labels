@@ -33,7 +33,7 @@ For manual installation:
 
 ## 🚀 Usage
 
-After activating the plugin, you can configure it by going to your WordPress dashboard and navigating to "Settings" -> "GLS Plugin". Here you can enter your GLS user ID, your password, your shipper account number, and your shipper address.
+After activating the plugin, you can configure it by going to your WordPress dashboard and navigating to "Settings" -> "GLS Plugin". Here you can enter your GLS user ID, your password, your shipper number, and your shipper address.
 
 To create a shipping or return label, go to the order page and click on "Create Shipping Label" or "Create Return Label" in the GLS metabox. The selected label will then be created, and a note will be added to the order with the consignment number and a download link for the label.
 

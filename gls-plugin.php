@@ -13,6 +13,45 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+// Check if the plugin is configured
+function isPluginConfigured() {
+	// check all options are set
+	$options = get_option( 'gls_plugin_settings' );
+
+	if ( ! isset( $options['user_id'] ) || empty( $options['user_id'] ) ) {
+		return false;
+	}
+
+	if ( ! isset( $options['password'] ) || empty( $options['password'] ) ) {
+		return false;
+	}
+
+	if ( ! isset( $options['shipper_account'] ) || empty( $options['shipper_account'] ) ) {
+		return false;
+	}
+
+	if ( ! isset( $options['country'] ) || empty( $options['country'] ) ) {
+		return false;
+	}
+
+	if ( ! isset( $options['postal_code'] ) || empty( $options['postal_code'] ) ) {
+		return false;
+	}
+
+	if ( ! isset( $options['city'] ) || empty( $options['city'] ) ) {
+		return false;
+	}
+
+	if ( ! isset( $options['street'] ) || empty( $options['street'] ) ) {
+		return false;
+	}
+
+	if ( ! isset( $options['name'] ) || empty( $options['name'] ) ) {
+		return false;
+	}
+
+	return true;
+}
 
 // Create the plugin directory and .htaccess file
 function create_gls_plugin_directory_and_htaccess() {
@@ -99,9 +138,9 @@ function gls_plugin_load() {
 		}, 'gls-plugin', 'gls_plugin_auth_section' );
 
 		// Shipper Account section
-		add_settings_section( 'gls_plugin_shipper_account_section', __( 'Shipper Account Number', "gls-plugin" ), null, 'gls-plugin' );
+		add_settings_section( 'gls_plugin_shipper_account_section', __( 'Shipper Number', "gls-plugin" ), null, 'gls-plugin' );
 
-		add_settings_field( 'gls_plugin_shipper_account', __( "Shipper Account Number", "gls-plugin" ), function () {
+		add_settings_field( 'gls_plugin_shipper_account', __( "Shipper Number", "gls-plugin" ), function () {
 			$options = get_option( 'gls_plugin_settings' );
 			echo '<input type="text" id="gls_plugin_shipper_account" name="gls_plugin_settings[shipper_account]" value="' . esc_attr( $options['shipper_account'] ?? "" ) . '">';
 		}, 'gls-plugin', 'gls_plugin_shipper_account_section' );
@@ -172,12 +211,19 @@ function gls_plugin_load() {
 
 	// Add the meta box callback function
 	function gls_plugin_meta_box_callback( $post ) {
-		echo '<div class="gls-plugin gls-plugin-grid">';
+
+		if(!isPluginConfigured()) {
+			echo '<div class="gls-plugin gls-plugin-grid">';
+			echo '<div class="form-field"><a class="button" href="' . admin_url( 'options-general.php?page=gls-plugin' ) . '" id="gls-plugin-configure">' . __( "Configure GLS Plugin", "gls-plugin" ) . '</a></div>';
+			echo '</div>';
+		} else {
+			echo '<div class="gls-plugin gls-plugin-grid">';
     
-		echo '<div class="form-field"><a class="button" href="' . admin_url( 'admin-post.php?action=gls_plugin_download_label&order_id=' . $post->ID ) . '" id="gls-plugin-create-label">' . __( "Create Shipping Label", "gls-plugin" ) . '</a></div>';
-		echo '<div class="form-field"><a class="button" href="' . admin_url( 'admin-post.php?action=gls_plugin_download_return_label&order_id=' . $post->ID ) . '" id="gls-plugin-create-return-label">' . __( "Create Return Label", "gls-plugin" ) . '</a></div>';
-	
-		echo '</div>';
+			echo '<div class="form-field"><a class="button" href="' . admin_url( 'admin-post.php?action=gls_plugin_download_label&order_id=' . $post->ID ) . '" id="gls-plugin-create-label">' . __( "Create Shipping Label", "gls-plugin" ) . '</a></div>';
+			echo '<div class="form-field"><a class="button" href="' . admin_url( 'admin-post.php?action=gls_plugin_download_return_label&order_id=' . $post->ID ) . '" id="gls-plugin-create-return-label">' . __( "Create Return Label", "gls-plugin" ) . '</a></div>';
+		
+			echo '</div>';
+		}
 	}
 
 	// Add the meta box
@@ -238,9 +284,19 @@ function gls_plugin_load() {
 		);
 
 
+		$hasWeight = false;
+
 		foreach ( $order->get_items() as $item_id => $item ) {
 			$product = $item->get_product();
 			$requestBuilder->addParcel( $product->get_weight() * $item->get_quantity() );
+
+			if($product->get_weight() > 0 && $item->get_quantity() > 0) {
+				$hasWeight = true;
+			}
+		}
+
+		if(!$hasWeight) {
+			$requestBuilder->addParcel( 0.1 );
 		}
 
 		$request = $requestBuilder->create();
@@ -256,7 +312,6 @@ function gls_plugin_load() {
 			file_put_contents( $file_path, $label );
 
 			// Get the URL of the file
-			//$file_url = content_url("/uploads/gls-plugin/{$shipment->getConsignmentId()}-{$i}.pdf");
 			$file_url = admin_url('admin-post.php?action=download_pdf&file_name='.$consignment_id.'-'.$i.'.pdf');
 
 			// Add the URL to the order note
@@ -309,10 +364,19 @@ function gls_plugin_load() {
 			$order->get_formatted_billing_full_name()
 		);
 
+		$hasWeight = false;
 
 		foreach ( $order->get_items() as $item_id => $item ) {
 			$product = $item->get_product();
 			$requestBuilder->addParcel( $product->get_weight() * $item->get_quantity() );
+
+			if($product->get_weight() > 0 && $item->get_quantity() > 0) {
+				$hasWeight = true;
+			}
+		}
+
+		if(!$hasWeight) {
+			$requestBuilder->addParcel( 0.1 );
 		}
 
 		$request = $requestBuilder->create();
@@ -329,7 +393,6 @@ function gls_plugin_load() {
 			file_put_contents( $file_path, $label );
 
 			// Get the URL of the file
-			//$file_url = content_url("/uploads/gls-plugin/{$shipment->getConsignmentId()}-{$i}.pdf");
 			$file_url = admin_url('admin-post.php?action=download_pdf&file_name='.$consignment_id.'-'.$i.'.pdf');
 
 			// Add the URL to the order note

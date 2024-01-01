@@ -27,7 +27,7 @@ msgstr "Kullanıcı ID"
 msgid "Password"
 msgstr "Parola"
 
-msgid "Shipper Account Number"
+msgid "Shipper Number"
 msgstr "Gönderen Hesap Numarası"
 
 msgid "Shipper Address"
@@ -137,3 +137,6 @@ msgstr "GLS İade Gönderi Etiketi oluşturuldu. Gönderi ID: %s. <a href='%s'>E
 
 msgid "GLS Shipping Label created. Consignment ID: %s. <a href='%s'>Download label</a>"
 msgstr "GLS Gönderi Etiketi oluşturuldu. Gönderi ID: %s. <a href='%s'>Etiketi indir</a>"
+
+msgid "Configure GLS Plugin"
+msgstr "GLS Eklentisini Yapılandır"

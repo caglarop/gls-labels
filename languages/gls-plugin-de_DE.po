@@ -27,8 +27,8 @@ msgstr "Benutzer-ID"
 msgid "Password"
 msgstr "Passwort"
 
-msgid "Shipper Account Number"
-msgstr "Versender-Kontonummer"
+msgid "Shipper Number"
+msgstr "Versendernummer"
 
 msgid "Shipper Address"
 msgstr "Versender-Adresse"
@@ -137,3 +137,6 @@ msgstr "GLS Rücksendeetikett erstellt. Sendungs-ID: %s. <a href='%s'>Etikett he
 
 msgid "GLS Shipping Label created. Consignment ID: %s. <a href='%s'>Download label</a>"
 msgstr "GLS Versandetikett erstellt. Sendungs-ID: %s. <a href='%s'>Etikett herunterladen</a>"
+
+msgid "Configure GLS Plugin"
+msgstr "GLS Plugin konfigurieren"

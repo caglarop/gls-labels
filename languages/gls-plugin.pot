@@ -26,7 +26,7 @@ msgstr ""
 msgid "Password"
 msgstr ""
 
-msgid "Shipper Account Number"
+msgid "Shipper Number"
 msgstr ""
 
 msgid "Shipper Address"
@@ -135,4 +135,7 @@ msgid "GLS Return Shipping Label created. Consignment ID: %s. <a href='%s'>Downl
 msgstr ""
 
 msgid "GLS Shipping Label created. Consignment ID: %s. <a href='%s'>Download label</a>"
+msgstr ""
+
+msgid "Configure GLS Plugin"
 msgstr ""

@@ -1,13 +1,13 @@
 {
-    "require": {
-        "glsgroup/sdk-api-parcel-processing": "^1.1",
-        "symfony/http-client": "^7.0",
-        "nyholm/psr7": "^1.8",
-        "php-http/guzzle6-adapter": "^2.0"
-    },
-    "config": {
-        "allow-plugins": {
-            "php-http/discovery": true
-        }
+  "require": {
+    "php": ">=7.4 <8.3",
+    "glsgroup/sdk-api-parcel-processing": "^1.1",
+    "nyholm/psr7": "^1.8",
+    "php-http/guzzle6-adapter": "^2.0"
+  },
+  "config": {
+    "allow-plugins": {
+      "php-http/discovery": true
     }
+  }
 }
