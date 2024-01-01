@@ -1,142 +1,142 @@
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: WooGLS Labels 1.0.3\n"
+"Project-Id-Version: GLS Labels 1.0.3\n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: tr_TR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.4.2\n"
 
-msgid "WooGLS Labels"
-msgstr "WooGLS Labels"
+msgid "GLS Labels"
+msgstr ""
 
 msgid "This is a WooCommerce plugin to create GLS shipping and return labels"
-msgstr "Bu, GLS kargo ve iade etiketleri oluşturmak için bir WooCommerce eklentisidir"
+msgstr ""
 
 msgid "GLS Settings"
-msgstr "GLS Ayarları"
+msgstr ""
 
 msgid "User ID"
-msgstr "Kullanıcı ID"
+msgstr ""
 
 msgid "Password"
-msgstr "Parola"
+msgstr ""
 
 msgid "Shipper Number"
-msgstr "Gönderen Hesap Numarası"
+msgstr ""
 
 msgid "Shipper Address"
-msgstr "Gönderen Adresi"
+msgstr ""
 
 msgid "Country"
-msgstr "Ülke"
+msgstr ""
 
 msgid "Germany"
-msgstr "Almanya"
+msgstr ""
 
 msgid "Austria"
-msgstr "Avusturya"
+msgstr ""
 
 msgid "Belgium"
-msgstr "Belçika"
+msgstr ""
 
 msgid "Bulgaria"
-msgstr "Bulgaristan"
+msgstr ""
 
 msgid "Czech Republic"
-msgstr "Çek Cumhuriyeti"
+msgstr ""
 
 msgid "Denmark"
-msgstr "Danimarka"
+msgstr ""
 
 msgid "Estonia"
-msgstr "Estonya"
+msgstr ""
 
 msgid "Spain"
-msgstr "İspanya"
+msgstr ""
 
 msgid "Finland"
-msgstr "Finlandiya"
+msgstr ""
 
 msgid "France"
-msgstr "Fransa"
+msgstr ""
 
 msgid "Ireland"
-msgstr "İrlanda"
+msgstr ""
 
 msgid "Croatia"
-msgstr "Hırvatistan"
+msgstr ""
 
 msgid "Hungary"
-msgstr "Macaristan"
+msgstr ""
 
 msgid "Italy"
-msgstr "İtalya"
+msgstr ""
 
 msgid "Lithuania"
-msgstr "Litvanya"
+msgstr ""
 
 msgid "Luxembourg"
-msgstr "Lüksemburg"
+msgstr ""
 
 msgid "Latvia"
-msgstr "Letonya"
+msgstr ""
 
 msgid "Monaco"
-msgstr "Monako"
+msgstr ""
 
 msgid "Netherlands"
-msgstr "Hollanda"
+msgstr ""
 
 msgid "Poland"
-msgstr "Polonya"
+msgstr ""
 
 msgid "Portugal"
-msgstr "Portekiz"
+msgstr ""
 
 msgid "Romania"
-msgstr "Romanya"
+msgstr ""
 
 msgid "Sweden"
-msgstr "İsveç"
+msgstr ""
 
 msgid "Slovenia"
-msgstr "Slovenya"
+msgstr ""
 
 msgid "Slovakia"
-msgstr "Slovakya"
+msgstr ""
 
 msgid "Postal Code"
-msgstr "Posta Kodu"
+msgstr ""
 
 msgid "City"
-msgstr "Şehir"
+msgstr ""
 
 msgid "Street"
-msgstr "Sokak"
+msgstr ""
 
 msgid "Name"
-msgstr "İsim"
+msgstr ""
 
 msgid "Create Shipping Label"
-msgstr "Gönderi Etiketi Oluştur"
+msgstr ""
 
 msgid "Create Return Label"
-msgstr "İade Etiketi Oluştur"
+msgstr ""
 
 msgid "GLS Shipping Label"
-msgstr "GLS Gönderi Etiketi"
+msgstr ""
 
 msgid "GLS Return Shipping Label created. Consignment ID: %s. <a href='%s'>Download label</a>"
-msgstr "GLS İade Gönderi Etiketi oluşturuldu. Gönderi ID: %s. <a href='%s'>Etiketi indir</a>"
+msgstr ""
 
 msgid "GLS Shipping Label created. Consignment ID: %s. <a href='%s'>Download label</a>"
-msgstr "GLS Gönderi Etiketi oluşturuldu. Gönderi ID: %s. <a href='%s'>Etiketi indir</a>"
+msgstr ""
 
-msgid "Configure WooGLS Labels"
-msgstr "GLS Eklentisini Yapılandır"
+msgid "Configure GLS Labels"
+msgstr ""

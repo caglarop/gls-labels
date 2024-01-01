@@ -1,4 +1,4 @@
-# WooGLS Labels 📦
+# GLS Labels 📦
 
 ![Logo](./icon-256x256.png)
 
@@ -7,11 +7,11 @@
 ![Sorunlar](https://img.shields.io/github/issues/caglarop/gls-plugin)
 ![Lisans](https://img.shields.io/github/license/caglarop/gls-plugin)
 
-WooGLS Labels, GLS Web API'si ile Paket İşleme ve Paket İptali için entegre olan ve GLS kargo etiketlerini doğrudan WordPress kontrol panelinizden oluşturmanızı sağlayan bir WordPress eklentisidir.
+GLS Labels, GLS Web API'si ile Paket İşleme ve Paket İptali için entegre olan ve GLS kargo etiketlerini doğrudan WordPress kontrol panelinizden oluşturmanızı sağlayan bir WordPress eklentisidir.
 
 ## 🔄 Uyumluluk
 
-WooGLS Labels, PHP'nin 7.4 ile 8.3 sürümleri arasındaki sürümlerle uyumludur.
+GLS Labels, PHP'nin 7.4 ile 8.3 sürümleri arasındaki sürümlerle uyumludur.
 
 ## 🌟 Özellikler
 
@@ -23,10 +23,10 @@ WooGLS Labels, PHP'nin 7.4 ile 8.3 sürümleri arasındaki sürümlerle uyumludu
 
 ## 📥 Kurulum
 
-WooGLS Labelsni doğrudan WordPress yönetici panelinden kurabilirsiniz:
+GLS Labelsni doğrudan WordPress yönetici panelinden kurabilirsiniz:
 
 1. Eklentiler menüsüne gidin ve "Yeni Ekle"yi tıklayın.
-2. "WooGLS Labels"ni arayın.
+2. "GLS Labels"ni arayın.
 3. "Şimdi Kur"u ve ardından "Etkinleştir"i tıklayın.
 
 Manuel kurulum için:
@@ -37,7 +37,7 @@ Manuel kurulum için:
 
 ## 🚀 Kullanım
 
-Eklentiyi etkinleştirdikten sonra, WordPress kontrol panelinize giderek "Ayarlar" -> "WooGLS Labels"ne giderek konfigüre edebilirsiniz. Burada GLS kullanıcı ID'nizi, şifrenizi, gönderici hesap numaranızı ve gönderici adresinizi girebilirsiniz.
+Eklentiyi etkinleştirdikten sonra, WordPress kontrol panelinize giderek "Ayarlar" -> "GLS Labels"ne giderek konfigüre edebilirsiniz. Burada GLS kullanıcı ID'nizi, şifrenizi, gönderici hesap numaranızı ve gönderici adresinizi girebilirsiniz.
 
 Bir kargo veya iade etiketi oluşturmak için, sipariş sayfasına gidin ve GLS metabox'ta "Kargo Etiketi Oluştur" veya "İade Etiketi Oluştur"u tıklayın. Seçilen etiket oluşturulacak ve siparişe konsinye numarası ve etiket için indirme linki içeren bir not eklenecektir.
 
