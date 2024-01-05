@@ -16,10 +16,11 @@ Das GLS Labels ist kompatibel mit PHP-Versionen von 7.4 bis 8.3.
 ## 🌟 Funktionen
 
 - Integration mit der GLS Web API für Paketverarbeitung und Paketstornierung.
-- Erstellung von GLS Versand- und Rücksendeetiketten.
-- Benutzerfreundliche Oberfläche mit einer Metabox auf der Bestelldetailseite.
-- Fügt automatisch eine Notiz zur Bestellung mit der Sendungsnummer und einem Download-Link für das Etikett hinzu.
-- Übersetzt in Englisch, Deutsch und Türkisch.
+- Erstellung von GLS Versandetiketten und Rücksendeetiketten.
+- Möglichkeit, Pakete zu stornieren.
+- Benutzerfreundliche Oberfläche mit einem Metabox auf der Bestelldetailseite.
+- Fügt automatisch eine Notiz zur Bestellung hinzu, die die Sendungsnummer, einen Download-Link für das Etikett und einen Link zur Stornierung des Pakets enthält.
+- Übersetzt ins Englische, Deutsche und Türkische.
 
 ## 📥 Installation
 

@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.5] - 24-01-05
+
+- Added parcel cancellation feature.
+- Added new translations to .po language files.
+- Updated order note to include a link for parcel cancellation.
+
 ## [1.0.4] - 24-01-01
 
 ### Changed

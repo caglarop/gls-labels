@@ -17,8 +17,9 @@ The GLS Labels is compatible with PHP versions from 7.4 to 8.3.
 
 - Integration with GLS Web API for Parcel Processing and Parcel Cancellation.
 - Creation of GLS shipping labels and return labels.
+- Ability to cancel parcels.
 - User-friendly interface with a metabox in the order details page.
-- Automatically adds a note to the order with the consignment number and a download link for the label.
+- Automatically adds a note to the order with the consignment number, a download link for the label, and a link to cancel the parcel.
 - Translated into English, German, and Turkish.
 
 ## 📥 Installation

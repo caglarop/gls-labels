@@ -15,11 +15,12 @@ GLS Labels, PHP'nin 7.4 ile 8.3 sürümleri arasındaki sürümlerle uyumludur.
 
 ## 🌟 Özellikler
 
-- GLS Web API'si ile Paket İşleme ve Paket İptali için entegrasyon.
-- GLS kargo etiketleri ve iade etiketlerinin oluşturulması.
-- Sipariş detayları sayfasında bir metabox ile kullanıcı dostu arayüz.
-- Otomatik olarak siparişe konsinye numarası ve etiket için indirme linki içeren bir not ekler.
-- İngilizce, Almanca ve Türkçe'ye çevrilmiştir.
+- GLS Web API ile Paket İşleme ve Paket İptali entegrasyonu.
+- GLS kargo etiketleri ve iade etiketleri oluşturma.
+- Paketleri iptal etme yeteneği.
+- Sipariş detay sayfasında bir metabox ile kullanıcı dostu arayüz.
+- Otomatik olarak siparişe, konşimento numarası, etiket için bir indirme linki ve paketi iptal etme linki içeren bir not ekler.
+- İngilizce, Almanca ve Türkçe'ye çevrildi.
 
 ## 📥 Kurulum
 

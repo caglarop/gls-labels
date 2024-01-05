@@ -4,8 +4,8 @@ Tags: gls, labels, shipping, parcel, cancellation
 Requires at least: 5.6
 Tested up to: 6.4.2
 Requires PHP: 7.4
-Stable tag: 1.0.4
-Version: 1.0.4
+Stable tag: 1.0.5
+Version: 1.0.5
 License: MIT License
 License URI: https://opensource.org/licenses/MIT
 
@@ -21,8 +21,9 @@ The GLS Labels is compatible with PHP versions from 7.4 to 8.3.
 
 - Integration with GLS Web API for Parcel Processing and Parcel Cancellation.
 - Creation of GLS shipping labels and return labels.
+- Ability to cancel parcels.
 - User-friendly interface with a metabox in the order details page.
-- Automatically adds a note to the order with the consignment number and a download link for the label.
+- Automatically adds a note to the order with the consignment number, a download link for the label, and a link to cancel the parcel.
 - Translated into English, German, and Turkish.
 
 == Installation ==
