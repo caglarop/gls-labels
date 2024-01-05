@@ -132,11 +132,20 @@ msgstr ""
 msgid "GLS Shipping Label"
 msgstr ""
 
-msgid "GLS Return Shipping Label created. Consignment ID: %s. <a href='%s'>Download label</a>"
+msgid "GLS Return Shipping Label created. Consignment ID: %s."
 msgstr ""
 
-msgid "GLS Shipping Label created. Consignment ID: %s. <a href='%s'>Download label</a>"
+msgid "GLS Shipping Label created. Consignment ID: %s."
 msgstr ""
 
 msgid "Configure GLS Labels"
+msgstr ""
+
+msgid "GLS Shipping Label cancelled. Consignment ID: %s"
+msgstr ""
+
+msgid "Cancel parcel"
+msgstr ""
+
+msgid "Download label"
 msgstr ""

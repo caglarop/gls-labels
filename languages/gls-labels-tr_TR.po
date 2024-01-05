@@ -132,11 +132,20 @@ msgstr "İade Etiketi Oluştur"
 msgid "GLS Shipping Label"
 msgstr "GLS Gönderi Etiketi"
 
-msgid "GLS Return Shipping Label created. Consignment ID: %s. <a href='%s'>Download label</a>"
-msgstr "GLS İade Gönderi Etiketi oluşturuldu. Gönderi ID: %s. <a href='%s'>Etiketi indir</a>"
+msgid "GLS Return Shipping Label created. Consignment ID: %s."
+msgstr "GLS İade Gönderi Etiketi oluşturuldu. Gönderi ID: %s."
 
-msgid "GLS Shipping Label created. Consignment ID: %s. <a href='%s'>Download label</a>"
-msgstr "GLS Gönderi Etiketi oluşturuldu. Gönderi ID: %s. <a href='%s'>Etiketi indir</a>"
+msgid "GLS Shipping Label created. Consignment ID: %s."
+msgstr "GLS Gönderi Etiketi oluşturuldu. Gönderi ID: %s."
 
 msgid "Configure GLS Labels"
 msgstr "GLS Eklentisini Yapılandır"
+
+msgid "GLS Shipping Label cancelled. Consignment ID: %s"
+msgstr "GLS Kargo Etiketi iptal edildi. Gönderi ID: %s"
+
+msgid "Cancel parcel"
+msgstr "Paketi iptal et"
+
+msgid "Download label"
+msgstr "Etiketi indir"

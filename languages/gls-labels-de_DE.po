@@ -132,11 +132,20 @@ msgstr "Rücksendeetikett erstellen"
 msgid "GLS Shipping Label"
 msgstr "GLS Versandetikett"
 
-msgid "GLS Return Shipping Label created. Consignment ID: %s. <a href='%s'>Download label</a>"
-msgstr "GLS Rücksendeetikett erstellt. Sendungs-ID: %s. <a href='%s'>Etikett herunterladen</a>"
+msgid "GLS Return Shipping Label created. Consignment ID: %s."
+msgstr "GLS Rücksendeetikett erstellt. Sendungs-ID: %s."
 
-msgid "GLS Shipping Label created. Consignment ID: %s. <a href='%s'>Download label</a>"
-msgstr "GLS Versandetikett erstellt. Sendungs-ID: %s. <a href='%s'>Etikett herunterladen</a>"
+msgid "GLS Shipping Label created. Consignment ID: %s."
+msgstr "GLS Versandetikett erstellt. Sendungs-ID: %s."
 
 msgid "Configure GLS Labels"
 msgstr "GLS Labels konfigurieren"
+
+msgid "GLS Shipping Label cancelled. Consignment ID: %s"
+msgstr "GLS Versandetikett storniert. Sendungsnummer: %s"
+
+msgid "Cancel parcel"
+msgstr "Paket stornieren"
+
+msgid "Download label"
+msgstr "Etikett herunterladen"
