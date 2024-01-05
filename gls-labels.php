@@ -99,23 +99,35 @@ function handle_gls_labels_download($isReturn)
     $upload_dir = wp_upload_dir();
     $base_dir = $upload_dir['basedir'] . '/gls-labels';
 
-    $consignment_id = $shipment->getConsignmentId();
+    $consignmentId = $shipment->getConsignmentId();
 
     foreach ($shipment->getLabels() as $i => $label) {
         $file_path = "{$base_dir}/{$shipment->getConsignmentId()}-{$i}.pdf";
         file_put_contents($file_path, $label);
 
         // Get the URL of the file
-        $file_url = admin_url('admin-post.php?action=download_pdf&file_name=' . $consignment_id . '-' . $i . '.pdf');
+        $fileUrl = admin_url('admin-post.php?action=download_pdf&file_name=' . $consignmentId . '-' . $i . '.pdf');
 
         // Add the URL to the order note
-        $labelType = $isReturn ? __('GLS Return Shipping Label created. Consignment ID: %s. <a href=\'%s\'>Download label</a>', "gls-labels") : __('GLS Shipping Label created. Consignment ID: %s. <a href=\'%s\'>Download label</a>', "gls-labels");
+        $labelType = $isReturn ? __('GLS Return Shipping Label created. Consignment ID: %s.', "gls-labels") : __('GLS Shipping Label created. Consignment ID: %s.', "gls-labels");
+
+        $labelType = $labelType . '<br />';
+
+        $labelType = $labelType . '<a class="button button-primary" style="margin-bottom: 5px" href="%s">' . __("Download label", "gls-labels") . "</a>";
+
+        $labelType = $labelType . '<br />';
+
+        // Add the cancel link
+        $cancelUrl = admin_url('admin-post.php?action=cancel_parcel&parcelId=' . $consignmentId);
+        $cancelLink = '<a class="button gls-button-danger" style="margin-bottom: 5px" href="%s">' . __('Cancel parcel', "gls-labels") . '</a>';
+
+        $labelType = $labelType . sprintf($cancelLink, esc_url($cancelUrl));
 
         $order->add_order_note(
             sprintf(
                 $labelType,
-                $consignment_id,
-                $file_url
+                $consignmentId,
+                $fileUrl,
             )
         );
     }
@@ -332,6 +344,57 @@ settings_fields('gls-labels');
 
     add_action('admin_post_gls_labels_download_label', 'handle_gls_labels_download_label');
 
+    // Handle the cancel parcel action
+    function handle_gls_labels_cancel_parcel()
+    {
+        // Check if the user is an admin
+        if (!is_admin()) {
+            return;
+        }
+
+        // Get the parcel ID from the request
+        $parcelId = $_REQUEST['parcelId'];
+        $orderId = $_REQUEST['id'];
+
+        // Check if the parcel ID and order ID are set
+        if (!isset($parcelId) || empty($parcelId) || !isset($orderId) || empty($orderId)) {
+            return;
+        }
+
+        // Get the options
+        $options = get_option('gls_labels_settings');
+
+        // Check if the plugin is configured
+        if (!isPluginConfigured()) {
+            return;
+        }
+
+        // Get the user ID, password and shipper account from the options
+        $userId = $options['user_id'] ?? "";
+        $password = $options['password'] ?? "";
+        $shipperAccount = $options["shipper_account"] ?? "";
+
+        $logger = new \Psr\Log\NullLogger();
+        $serviceFactory = new \GlsGroup\Sdk\ParcelProcessing\Service\ServiceFactory();
+        $service = $serviceFactory->createCancellationService($userId, $password, $logger, false);
+
+        // Cancel the parcel
+        $cancelledIds = $service->cancelParcels([$parcelId]);
+
+        // Add a note to the order
+        $order = wc_get_order($orderId);
+
+        $order->add_order_note(
+            sprintf(
+                __('GLS Shipping Label cancelled. Consignment ID: %s', "gls-labels"),
+                $parcelId
+            )
+        );
+
+        // Redirect to the order edit page
+        wp_redirect(admin_url('post.php?post=' . $orderId . '&action=edit'));
+    }
+
     // Handle the download pdf action
     function handle_gls_labels_download_pdf()
     {
@@ -372,6 +435,8 @@ settings_fields('gls-labels');
     }
 
     add_action('admin_post_download_pdf', 'handle_gls_labels_download_pdf');
+    add_action('admin_post_cancel_parcel', 'handle_gls_labels_cancel_parcel');
+
 }
 
 add_action('plugins_loaded', 'gls_labels_load', 10);
