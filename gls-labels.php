@@ -16,7 +16,7 @@ if (!defined('ABSPATH')) {
 global $wp_filesystem;
 
 // Check if WP_Filesystem is initialized
-if ( ! isset( $wp_filesystem ) || ! is_object( $wp_filesystem ) ) {
+if (!isset($wp_filesystem) || !is_object($wp_filesystem)) {
     require_once ABSPATH . '/wp-admin/includes/file.php';
     WP_Filesystem();
 }
@@ -24,12 +24,6 @@ if ( ! isset( $wp_filesystem ) || ! is_object( $wp_filesystem ) ) {
 // Function to create the shipping label
 function create_gls_shipment($order, $options, $isReturn)
 {
-    // Verify nonce
-    if ( ! isset( $_POST['gls_labels_nonce'] ) || ! wp_verify_nonce( $_POST['gls_labels_nonce'], 'gls_labels_action' ) ) {
-        // Nonce verification failed, handle the error here
-        return;
-    }
-	
     $userId = $options['user_id'] ?? "";
     $password = $options['password'] ?? "";
     $shipperAccount = $options["shipper_account"] ?? "";
@@ -100,10 +94,6 @@ function create_gls_shipment($order, $options, $isReturn)
 // Handle the download label action
 function handle_gls_labels_download($isReturn)
 {
-    if ( ! isset( $_GET['gls_labels_nonce'] ) || ! wp_verify_nonce( $_GET['gls_labels_nonce'], 'gls_labels_action' ) ) {
-        return;
-    }
-	
     if (!is_admin()) {
         return;
     }
@@ -122,8 +112,8 @@ function handle_gls_labels_download($isReturn)
     foreach ($shipment->getLabels() as $i => $label) {
         $file_path = "{$base_dir}/{$shipment->getConsignmentId()}-{$i}.pdf";
         // file_put_contents($file_path, $label);
-	$wp_filesystem->put_contents( $file_path, $label );
-	    
+        $wp_filesystem->put_contents($file_path, $label);
+
         // Get the URL of the file
         $fileUrl = admin_url('admin-post.php?action=download_pdf&file_name=' . $consignmentId . '-' . $i . '.pdf');
 
@@ -180,7 +170,7 @@ function create_gls_labels_directory_and_htaccess()
     // Check if the directory exists, if not, create it
     if (!file_exists($gls_labels_dir)) {
         // mkdir($gls_labels_dir, 0755, true);
-	$wp_filesystem->mkdir( $gls_labels_dir, 0755, true );
+        $wp_filesystem->mkdir($gls_labels_dir, 0755, true);
     }
 
     // Check if the .htaccess file exists, if not, create it
@@ -189,7 +179,7 @@ function create_gls_labels_directory_and_htaccess()
     if (!file_exists($htaccess_file)) {
         $htaccess_content = "deny from all";
         // file_put_contents($htaccess_file, $htaccess_content);
-	$wp_filesystem->put_contents( $htaccess_file, $htaccess_content );
+        $wp_filesystem->put_contents($htaccess_file, $htaccess_content);
     }
 }
 
@@ -321,8 +311,6 @@ settings_fields('gls-labels');
     // Add the meta box callback function
     function gls_labels_meta_box_callback($post)
     {
-	wp_nonce_field( 'gls_labels_action', 'gls_labels_nonce' );
-	    
         if (!isPluginConfigured()) {
             echo '<div class="gls-labels gls-labels-grid">';
             echo '<div class="form-field"><a class="button" href="' . admin_url('options-general.php?page=gls-labels') . '" id="gls-labels-configure">' . __("Configure GLS Labels", "gls-labels") . '</a></div>';
@@ -439,8 +427,8 @@ settings_fields('gls-labels');
 
                 // Read the file and output its contents
                 //readfile($file_path);
-		echo $wp_filesystem->get_contents( $file_path );
-		    
+                echo $wp_filesystem->get_contents($file_path);
+
                 // Stop the script execution
                 exit;
             } else {
