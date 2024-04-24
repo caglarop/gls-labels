@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.7] - 24-04-24
+
+- WP File System 
+
 ## [1.0.5] - 24-01-05
 
 - Added parcel cancellation feature.
