@@ -13,6 +13,14 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+global $wp_filesystem;
+
+// Check if WP_Filesystem is initialized
+if ( ! isset( $wp_filesystem ) || ! is_object( $wp_filesystem ) ) {
+    require_once ABSPATH . '/wp-admin/includes/file.php';
+    WP_Filesystem();
+}
+
 // Function to create the shipping label
 function create_gls_shipment($order, $options, $isReturn)
 {
@@ -103,8 +111,9 @@ function handle_gls_labels_download($isReturn)
 
     foreach ($shipment->getLabels() as $i => $label) {
         $file_path = "{$base_dir}/{$shipment->getConsignmentId()}-{$i}.pdf";
-        file_put_contents($file_path, $label);
-
+        // file_put_contents($file_path, $label);
+	$wp_filesystem->put_contents( $file_path, $label );
+	    
         // Get the URL of the file
         $fileUrl = admin_url('admin-post.php?action=download_pdf&file_name=' . $consignmentId . '-' . $i . '.pdf');
 
@@ -160,7 +169,8 @@ function create_gls_labels_directory_and_htaccess()
 
     // Check if the directory exists, if not, create it
     if (!file_exists($gls_labels_dir)) {
-        mkdir($gls_labels_dir, 0755, true);
+        // mkdir($gls_labels_dir, 0755, true);
+	$wp_filesystem->mkdir( $gls_labels_dir, 0755, true );
     }
 
     // Check if the .htaccess file exists, if not, create it
@@ -168,7 +178,8 @@ function create_gls_labels_directory_and_htaccess()
 
     if (!file_exists($htaccess_file)) {
         $htaccess_content = "deny from all";
-        file_put_contents($htaccess_file, $htaccess_content);
+        // file_put_contents($htaccess_file, $htaccess_content);
+	$wp_filesystem->put_contents( $htaccess_file, $htaccess_content );
     }
 }
 
@@ -416,8 +427,9 @@ settings_fields('gls-labels');
                 header('Content-Length: ' . filesize($file_path));
 
                 // Read the file and output its contents
-                readfile($file_path);
-
+                //readfile($file_path);
+		echo $wp_filesystem->get_contents( $file_path );
+		    
                 // Stop the script execution
                 exit;
             } else {
