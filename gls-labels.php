@@ -24,6 +24,12 @@ if ( ! isset( $wp_filesystem ) || ! is_object( $wp_filesystem ) ) {
 // Function to create the shipping label
 function create_gls_shipment($order, $options, $isReturn)
 {
+    // Verify nonce
+    if ( ! isset( $_POST['gls_labels_nonce'] ) || ! wp_verify_nonce( $_POST['gls_labels_nonce'], 'gls_labels_action' ) ) {
+        // Nonce verification failed, handle the error here
+        return;
+    }
+	
     $userId = $options['user_id'] ?? "";
     $password = $options['password'] ?? "";
     $shipperAccount = $options["shipper_account"] ?? "";
@@ -94,6 +100,10 @@ function create_gls_shipment($order, $options, $isReturn)
 // Handle the download label action
 function handle_gls_labels_download($isReturn)
 {
+    if ( ! isset( $_GET['gls_labels_nonce'] ) || ! wp_verify_nonce( $_GET['gls_labels_nonce'], 'gls_labels_action' ) ) {
+        return;
+    }
+	
     if (!is_admin()) {
         return;
     }
@@ -311,7 +321,8 @@ settings_fields('gls-labels');
     // Add the meta box callback function
     function gls_labels_meta_box_callback($post)
     {
-
+	wp_nonce_field( 'gls_labels_action', 'gls_labels_nonce' );
+	    
         if (!isPluginConfigured()) {
             echo '<div class="gls-labels gls-labels-grid">';
             echo '<div class="form-field"><a class="button" href="' . admin_url('options-general.php?page=gls-labels') . '" id="gls-labels-configure">' . __("Configure GLS Labels", "gls-labels") . '</a></div>';
