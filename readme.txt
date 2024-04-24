@@ -6,7 +6,7 @@ Tested up to: 6.4.2
 Requires PHP: 7.4
 Stable tag: 1.0.7
 Version: 1.0.7
-License: MIT License
+License: MIT
 License URI: https://opensource.org/licenses/MIT
 
 == Description ==
