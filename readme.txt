@@ -9,6 +9,10 @@ Version: 1.0.7
 License: MIT
 License URI: https://opensource.org/licenses/MIT
 
+== Short Description ==
+
+The GLS Labels is a WordPress plugin that integrates with the GLS Web API for Parcel Processing and Parcel Cancellation, allowing the creation of GLS shipping labels directly from your WordPress dashboard.
+
 == Description ==
 
 The GLS Labels is a WordPress plugin that integrates with the GLS Web API for Parcel Processing and Parcel Cancellation, allowing the creation of GLS shipping labels directly from your WordPress dashboard.
